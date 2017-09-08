@@ -15,6 +15,11 @@ class CreatePostReactionsTable extends Migration
     {
         Schema::create('post_reactions', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id');
+            $table->integer('post_id')->nullable();
+            $table->integer('comment_id')->nullable();
+            $table->string('reaction');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

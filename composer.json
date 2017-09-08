@@ -7,11 +7,14 @@
     "require": {
         "php": ">=7.0.0",
         "antennaio/laravel-clyde": "^0.0.10",
+        "cviebrock/eloquent-sluggable": "^4.3",
         "fideloper/proxy": "~3.3",
         "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
-        "yohang88/letter-avatar": "^1.0"
+        "laravelcollective/html": "^5.5",
+        "yohang88/letter-avatar": "^1.0",
+        "zizaco/entrust": "^1.8"
     },
     "require-dev": {
         "filp/whoops": "~2.0",

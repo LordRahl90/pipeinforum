@@ -11,6 +11,17 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/','Site\SiteMonitor@index');
+Route::get('/topic/{slug}','Site\SiteMonitor@loadFullPost');
+
+Route::group(['prefix'=>'user'], function(){
+   Route::get('/register','User\UserManagement@create');
+   Route::post('/register','User\UserManagement@store');
+
+   Route::get('/post/create','Post\PostController@create');
 });
+
+Route::group(['prefix'=>'admin'], function(){
+
+});
+

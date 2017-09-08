@@ -168,6 +168,8 @@ return [
          * Package Service Providers...
          */
         Antennaio\Clyde\ClydeServiceProvider::class,
+        Zizaco\Entrust\EntrustServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
 
 
         /*
@@ -233,7 +235,9 @@ return [
          */
         'ClydeUpload' => Antennaio\Clyde\Facades\ClydeUpload::class,
         'ClydeImage' => Antennaio\Clyde\Facades\ClydeImage::class,
-
+        'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
     ],
 
 ];
