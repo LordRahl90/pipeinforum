@@ -5,6 +5,10 @@
  * Date: 08/09/2017
  * Time: 2:35 PM
  */
+
+$topCategories=\App\Utility\Utility::getTopCategories();
+$activeThreads=\App\Utility\Utility::getActiveThreads();
+
 ?>
 
 <!DOCTYPE html>
@@ -88,10 +92,18 @@
                         </form>
                     </div>
                 </div>
+
                 <div class="col-lg-4 col-xs-12 col-sm-5 col-md-4 avt">
                     <div class="stnt pull-left">
+                        @if(\Illuminate\Support\Facades\Auth::check())
+                            <div class="stnt pull-left">
+                                {{--<form action="http://forum.azyrusthemes.com/03_new_topic.html" method="post" class="form">--}}
+                                <a href="/user/post/create" class="btn btn-primary">Start New Topic</a>
+                                {{--</form>--}}
+                            </div>
+                        @endif
                         {{--<form action="http://forum.azyrusthemes.com/03_new_topic.html" method="post" class="form">--}}
-                            <a href="/user/post/create" class="btn btn-primary">Start New Topic</a>
+                            {{--<a href="/user/post/create" class="btn btn-primary">Start New Topic</a>--}}
                         {{--</form>--}}
                     </div>
                     <div class="env pull-left"><i class="fa fa-envelope"></i></div>
@@ -100,11 +112,25 @@
                         <a data-toggle="dropdown" href="#"><img src="{{ asset("images/avatar.jpg") }}" alt="" /></a> <b class="caret"></b>
                         <div class="status green">&nbsp;</div>
                         <ul class="dropdown-menu" role="menu">
-                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">My Profile</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-2" href="#">Inbox</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-3" href="#">Log Out</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-4" href="/user/register">Create
-                                    account</a></li>
+                            {{--<li role="presentation">--}}
+                            {{--<a role="menuitem" tabindex="-2" href="#">Inbox</a>--}}
+                            {{--</li>--}}
+                            @if(\Illuminate\Support\Facades\Auth::check())
+                                <li role="presentation">
+                                    <a role="menuitem" tabindex="-1" href="/user/profile">My Profile</a>
+                                </li>
+
+                                <li role="presentation">
+                                    <a role="menuitem" tabindex="-3" href="/signout">
+                                        Log Out
+                                    </a>
+                                </li>
+                            @else
+                                <li role="presentation">
+                                    <a role="menuitem" tabindex="-4" href="/user/login">Sign In</a>
+                                    <a role="menuitem" tabindex="-4" href="/user/register">Create account</a>
+                                </li>
+                            @endif
                         </ul>
                     </div>
 
@@ -236,13 +262,17 @@
                         <div class="divline"></div>
                         <div class="blocktxt">
                             <ul class="cats">
-                                <li><a href="#">Trading for Money <span class="badge pull-right">20</span></a></li>
-                                <li><a href="#">Vault Keys Giveway <span class="badge pull-right">10</span></a></li>
-                                <li><a href="#">Misc Guns Locations <span class="badge pull-right">50</span></a></li>
-                                <li><a href="#">Looking for Players <span class="badge pull-right">36</span></a></li>
-                                <li><a href="#">Stupid Bugs &amp; Solves <span class="badge pull-right">41</span></a></li>
-                                <li><a href="#">Video &amp; Audio Drivers <span class="badge pull-right">11</span></a></li>
-                                <li><a href="#">2K Official Forums <span class="badge pull-right">5</span></a></li>
+                                @if(count($topCategories)>0)
+                                    @foreach($topCategories as $topCategory)
+                                        <li>
+                                            <a href="/category/{{ $topCategory->slug }}">{{ $topCategory->category }}
+                                                <span class="badge pull-right">
+                                                    {{ $topCategory->posts_count}}
+                                                </span>
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                @endif
                             </ul>
                         </div>
                     </div>
@@ -303,26 +333,15 @@
                     <!-- -->
                     <div class="sidebarblock">
                         <h3>My Active Threads</h3>
-                        <div class="divline"></div>
-                        <div class="blocktxt">
-                            <a href="#">This Dock Turns Your iPhone Into a Bedside Lamp</a>
-                        </div>
-                        <div class="divline"></div>
-                        <div class="blocktxt">
-                            <a href="#">Who Wins in the Battle for Power on the Internet?</a>
-                        </div>
-                        <div class="divline"></div>
-                        <div class="blocktxt">
-                            <a href="#">Sony QX10: A Funky, Overpriced Lens Camera for Your Smartphone</a>
-                        </div>
-                        <div class="divline"></div>
-                        <div class="blocktxt">
-                            <a href="#">FedEx Simplifies Shipping for Small Businesses</a>
-                        </div>
-                        <div class="divline"></div>
-                        <div class="blocktxt">
-                            <a href="#">Loud and Brave: Saudi Women Set to Protest Driving Ban</a>
-                        </div>
+
+                        @if(count($activeThreads)>0)
+                            @foreach($activeThreads as $activeThread)
+                                <div class="divline"></div>
+                                <div class="blocktxt">
+                                    <a href="/topic/{{ $activeThread->slug }}">{{ $activeThread->title }}</a>
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
 
 

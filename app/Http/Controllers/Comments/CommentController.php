@@ -36,6 +36,10 @@ class CommentController extends Controller
      */
     public function store(Request $request,Comment $commentRepository)
     {
+        if(!auth()->check()){
+            return redirect('/');
+        }
+
         $request->validate([
             'post_id'=>'required',
             'reply'=>'required'

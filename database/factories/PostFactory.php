@@ -18,6 +18,7 @@ $factory->define(App\Models\Post::class, function(Faker $faker){
         },
         'title'=>$faker->word,
         'content'=>$faker->paragraph,
+        'notification'=>$faker->randomElement([true,false]),
         'status'=>true
     ];
 });

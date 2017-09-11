@@ -13,6 +13,7 @@
 
 Route::get('/','Site\SiteMonitor@index');
 Route::get('/topic/{slug}','Site\SiteMonitor@loadFullPost');
+Route::get('/category/{slug}','Site\SiteMonitor@loadCategoryPosts');
 
 Route::group(['prefix'=>'user'], function(){
    Route::get('/register','User\UserManagement@create');
@@ -25,7 +26,7 @@ Route::group(['prefix'=>'user'], function(){
    Route::post('/login','User\UserManagement@login');
 
 
-   Route::get('profile','User\UserManagement@loadProfile');
+   Route::get('/profile','User\UserManagement@loadProfile');
    Route::get('/post/create','Post\PostController@create');
    Route::post('/post/create','Post\PostController@store');
 
@@ -38,4 +39,6 @@ Route::resource('subcategory','PostSubCategoryController');
 Route::group(['prefix'=>'admin'], function(){
 
 });
+
+Route::get('/signout','Site\SiteMonitor@signOut');
 

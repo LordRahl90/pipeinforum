@@ -28,7 +28,8 @@ $factory->define(\App\Models\Comment::class, function (Faker $faker) {
             return $commentItem['id'];
         },
         'comment' => $faker->paragraph,
-        'show' => $faker->randomElement([true, false])
+        'show' => $faker->randomElement([true, false]),
+        'notification'=>$faker->randomElement([true,false])
     ];
 
 });

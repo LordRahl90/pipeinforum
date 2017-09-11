@@ -2,12 +2,13 @@
 /**
  * Created by PhpStorm.
  * User: lordrahl
- * Date: 08/09/2017
- * Time: 2:34 PM
+ * Date: 11/09/2017
+ * Time: 7:37 PM
  */
+
 ?>
 @extends('partials.index-partial')
-@section('title',"Welcome to PipeIn")
+@section('title',$category)
 @section('top-pagination')
     <div class="container">
         <div class="row">

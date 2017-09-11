@@ -17,6 +17,7 @@ class CreatePostSubCategoriesTable extends Migration
             $table->increments('id');
             $table->integer('category_id');
             $table->string('sub_category');
+            $table->string('slug');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -18,4 +18,9 @@ class PostRepository extends Repository
     {
         return 'App\Models\Post';
     }
+
+
+    public function activeThreads(){
+        return $this->model->withCount('comment')->get();
+    }
 }

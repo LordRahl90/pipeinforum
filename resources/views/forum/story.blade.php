@@ -11,6 +11,7 @@ $comments=\App\Utility\Utility::collection_paginate($post->comments,5);
 //dd($comments);
 ?>
 @extends('partials.index-partial')
+@section('title',$post->title)
 @section('content')
     <div class="container">
         <div class="row">
@@ -98,8 +99,9 @@ $comments=\App\Utility\Utility::collection_paginate($post->comments,5);
                     <div class="col-lg-10">
                         <i class="fa fa-info-circle"></i>
                         <p>
-                            Comments to  <a href="#">{{ $post->title }}</a>
-                        </p></div>
+                            {{ count($post->comments) }} Comments to  <a href="#">{{ $post->title }}</a>
+                        </p>
+                    </div>
                     <div class="col-lg-2 loading"><i class="fa fa-spinner"></i></div>
                 </div>
 
@@ -121,17 +123,25 @@ $comments=\App\Utility\Utility::collection_paginate($post->comments,5);
                                         </div>
 
                                         <div class="icons">
-                                            <img src="{{ asset("images/icon3.jpg") }}" alt="" />
-                                            <img src="{{ asset("images/icon4.jpg") }}" alt="" />
-                                            <img src="{{ asset("images/icon5.jpg") }}" alt="" />
-                                            <img src="{{ asset("images/icon6.jpg") }}" alt="" />
+                                            {{--<img src="{{ asset("images/icon3.jpg") }}" alt="" />--}}
+                                            {{--<img src="{{ asset("images/icon4.jpg") }}" alt="" />--}}
+                                            {{--<img src="{{ asset("images/icon5.jpg") }}" alt="" />--}}
+                                            {{--<img src="{{ asset("images/icon6.jpg") }}" alt="" />--}}
                                         </div>
                                     </div>
-                                    <div class="posttext pull-left">
+                                    <div class="posttext pull-left" style="word-break-wrap: break">
                                         @if($comment->quote_comment_id != null)
+                                            <?php
+                                                $quote=$commentRepo->find($comment->quote_comment_id);
+                                                $owner=$quote->owner;
+                                            ?>
                                             <blockquote>
-                                                <span class="original">Original Posted by - theguy_21:</span>
-                                                Did you see that Dove ad pop up in your Facebook feed this year? How about the Geico camel one?
+                                                <span class="original">
+                                                    Originally Posted by - {{
+                                                    $owner->first_name.' '.$owner->last_name
+                                                }}:
+                                                </span>
+                                                <p align="justify">{!! $quote->comment !!}</p>
                                             </blockquote>
                                         @endif
 
@@ -154,81 +164,84 @@ $comments=\App\Utility\Utility::collection_paginate($post->comments,5);
                                     </div>
 
                                     <div class="posted pull-left">
-                                        <i class="fa fa-clock-o"></i> Posted on : 20 Nov @ 9:50am</div>
+                                        {{--<i class="fa fa-clock-o"></i> Posted on : 20 Nov @ 9:50am</div>--}}
+                                        <i class="fa fa-clock-o"></i> Posted on : {{ Date('d M @ H:i') }}</div>
                                     <div class="next pull-right">
                                         <a href="#"><i class="fa fa-share"></i></a>
-
                                         <a href="#"><i class="fa fa-flag"></i></a>
                                     </div>
-
                                     <div class="clearfix"></div>
                                 </div>
                             </div><!-- POST -->
 
                     @endforeach
-
                 @else
 
                 @endif
 
 
+
+                @if(\Illuminate\Support\Facades\Auth::check())
                 <!-- POST -->
-                <div class="post" id="comment">
-                    <form action="/user/comment" class="form" method="post" id="postCommentForm">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-                        <input type="hidden" name="post_id" value="{{ $post->id }}" />
-                        
-                        <div id="quoted_post" style="display: block; padding:2%;">
-                            <input type="hidden" name="quote_comment_id" id="quote_comment_id" value="" />
-                            <div class="alert alert-warning alert-dismissable" style="padding-top:2%;" id="removeQuote">
-                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                <blockquote id="quoted_content"></blockquote>
-                            </div>
-                        </div>
-                        <div class="topwrap">
-                            <div class="userinfo pull-left">
-                                <div class="avatar">
-                                    <img src="{{ asset("images/avatar4.jpg") }}" alt="" />
-                                    <div class="status red">&nbsp;</div>
-                                </div>
+                    <div class="post" id="comment">
+                        <form action="/user/comment" class="form" method="post" id="postCommentForm">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                            <input type="hidden" name="post_id" value="{{ $post->id }}" />
 
-                                <div class="icons">
-                                    <img src="{{ asset("images/icon3.jpg") }}" alt="" />
-                                    <img src="{{ asset("images/icon4.jpg") }}" alt="" />
-                                    <img src="{{ asset("images/icon5.jpg") }}" alt="" />
-                                    <img src="{{ asset("images/icon6.jpg") }}" alt="" />
+                            <div id="quoted_post" style="display: none; padding:2%;">
+                                <input type="hidden" name="quote_comment_id" id="quote_comment_id" value="" />
+                                <div class="alert alert-warning alert-dismissable" style="padding-top:2%;" id="removeQuote">
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    <blockquote id="quoted_content"></blockquote>
                                 </div>
                             </div>
-                            <div class="posttext pull-left">
-                                <div class="textwraper">
-                                    <div class="postreply">Post a Reply</div>
-                                    <textarea name="reply" id="reply" placeholder="Type your message here"></textarea>
+                            <div class="topwrap">
+                                <div class="userinfo pull-left">
+                                    <div class="avatar">
+                                        <img src="{{ asset("images/avatar4.jpg") }}" alt="" />
+                                        <div class="status red">&nbsp;</div>
+                                    </div>
+
+                                    <div class="icons">
+                                        <img src="{{ asset("images/icon3.jpg") }}" alt="" />
+                                        <img src="{{ asset("images/icon4.jpg") }}" alt="" />
+                                        <img src="{{ asset("images/icon5.jpg") }}" alt="" />
+                                        <img src="{{ asset("images/icon6.jpg") }}" alt="" />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="postinfobot">
-
-                            <div class="notechbox pull-left">
-                                <input type="checkbox" name="notify" id="notify" class="form-control required" />
-                            </div>
-
-                            <div class="pull-left">
-                                <label for="note"> Email me when some one post a reply</label>
-                            </div>
-
-                            <div class="pull-right postreply">
-                                <div class="pull-left smile"><a href="#"><i class="fa fa-smile-o"></i></a></div>
-                                <div class="pull-left"><button type="button" id="postReplyButton" class="btn
-                                btn-primary">Post
-                                        Reply</button></div>
+                                <div class="posttext pull-left">
+                                    <div class="textwraper">
+                                        <div class="postreply">Post a Reply</div>
+                                        <textarea name="reply" id="reply" placeholder="Type your message
+                                    here"></textarea>
+                                    </div>
+                                </div>
                                 <div class="clearfix"></div>
                             </div>
+                            <div class="postinfobot">
 
-                            <div class="clearfix"></div>
-                        </div>
-                    </form>
-                </div><!-- POST -->
+                                <div class="notechbox pull-left">
+                                    <input type="checkbox" name="notify" id="notify" class="form-control required" />
+                                </div>
+
+                                <div class="pull-left">
+                                    <label for="note"> Email me when some one post a reply</label>
+                                </div>
+
+                                <div class="pull-right postreply">
+                                    <div class="pull-left smile"><a href="#"><i class="fa fa-smile-o"></i></a></div>
+                                    <div class="pull-left"><button type="button" id="postReplyButton" class="btn
+                                btn-primary">Post
+                                            Reply</button></div>
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="clearfix"></div>
+                            </div>
+                        </form>
+                    </div>
+                <!-- POST -->
+                @endif
             </div>
         </div>
     </div>
@@ -246,6 +259,17 @@ $comments=\App\Utility\Utility::collection_paginate($post->comments,5);
     <script>
         $(function(){
             $("#reply").summernote();
+
+            $("#postCommentForm").ajaxForm(function(data){
+               if(data.status!='success'){
+                   error(data.message);
+                   return;
+               }
+
+               $("#reply").prop("value","");
+               location.reload();
+               success(data.message);
+            });
 
             $("#postReplyButton").click(function(){
                 $("#postCommentForm").submit();

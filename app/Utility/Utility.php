@@ -8,6 +8,8 @@
 
 namespace App\Utility;
 
+use App\Models\Post;
+use App\Models\PostCategory;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -44,7 +46,7 @@ class Utility
     }
 
 
-    static function collection_paginate($items, $per_page)
+    public static function collection_paginate($items, $per_page)
     {
         $page   = Request::get('page', 1);
         $offset = ($page * $per_page) - $per_page;
@@ -56,5 +58,17 @@ class Utility
             Paginator::resolveCurrentPage(),
             ['path' => Paginator::resolveCurrentPath()]
         );
+    }
+
+
+    public static function getTopCategories(){
+        $topCategories=PostCategory::with(['subCategories','posts'])->withCount(['posts'])->orderBy('posts_count','desc')
+            ->take(7)->get();
+        return $topCategories;
+    }
+
+    public static function getActiveThreads(){
+        $activeThreads=Post::withCount('comments')->orderBy('comments_count','desc')->take(5)->get();
+        return $activeThreads;
     }
 }
