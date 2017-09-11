@@ -30,6 +30,9 @@
     <!-- fonts -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="{{ asset("font-awesome-4.0.3/css/font-awesome.min.css") }}">
+    <link rel="stylesheet" href="{{ asset("bower_components/summernote/dist/summernote.css") }}" />
+    <link rel="stylesheet" href="{{ asset("bower_components/toastr/toastr.min.css") }}" />
+
 
     <!-- CSS STYLE-->
     <link rel="stylesheet" type="text/css" href="{{ asset("css/style.css") }}" media="screen" />
@@ -38,7 +41,15 @@
     <link rel="stylesheet" type="text/css" href="{{ asset("rs-plugin/css/settings.css") }}" media="screen" />
 </head>
 <body>
-
+{{--<div id="fb-root"></div>--}}
+{{--<script>(function(d, s, id) {--}}
+        {{--var js, fjs = d.getElementsByTagName(s)[0];--}}
+        {{--if (d.getElementById(id)) return;--}}
+        {{--js = d.createElement(s); js.id = id;--}}
+        {{--js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.10&appId=1395027497211285";--}}
+        {{--fjs.parentNode.insertBefore(js, fjs);--}}
+    {{--}(document, 'script', 'facebook-jssdk'));--}}
+{{--</script>--}}
 <div class="container-fluid">
 
     <!-- Slider -->
@@ -60,12 +71,13 @@
     <div class="headernav">
         <div class="container">
             <div class="row">
-                <div class="col-lg-1 col-xs-3 col-sm-2 col-md-2 logo "><a href="#"><img src="{{ asset("images/logo.jpg") }}" alt=""
-                        /></a></div>
+                <div class="col-lg-1 col-xs-3 col-sm-2 col-md-2 logo ">
+                    <a href="/">
+                        <img src="{{ asset("images/logo.jpg") }}" alt="" />
+                    </a>
+                </div>
                 <div class="col-lg-3 col-xs-9 col-sm-5 col-md-3 selecttopic">
-                    <div class="dropdown">
-                        <a data-toggle="dropdown" href="#" >PipeIn&trade;</a>
-                    </div>
+                    <a href="/" >PipeIn&trade;</a>
                 </div>
                 <div class="col-lg-4 search hidden-xs hidden-sm col-md-3">
                     <div class="wrap">
@@ -104,7 +116,220 @@
 
 
     <section class="content">
-        @yield('content')
+        @yield('top-pagination')
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-8">
+                    <!-- POST -->
+                    @yield('content')
+
+                    <div class="post">
+                        <div class="wrap-ut pull-left">
+                            <div class="userinfo pull-left">
+                                <div class="avatar">
+                                    <img src="{{ asset("images/avatar.jpg") }}" alt="">
+                                    <div class="status green">&nbsp;</div>
+                                </div>
+
+                                <div class="icons">
+                                    <img src="{{ asset("images/icon1.jpg") }}" alt="">
+                                    <img src="{{ asset("images/icon4.jpg") }}" alt="">
+                                </div>
+                            </div>
+                            <div class="posttext pull-left">
+                                <h2>10 Kids Unaware of Their Halloween Costume</h2>
+                                <p>It's one thing to subject yourself to a Halloween costume mishap because, hey, that's your prerogative.</p>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="postinfo pull-left">
+                            <div class="comments">
+                                <div class="commentbg">
+                                    560
+                                    <div class="mark"></div>
+                                </div>
+
+                            </div>
+                            <div class="views"><i class="fa fa-eye"></i> 1,568</div>
+                            <div class="time"><i class="fa fa-clock-o"></i> 24 min</div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div><!-- POST -->
+
+
+                    <!-- POST -->
+                    <div class="post">
+                        <div class="wrap-ut pull-left">
+                            <div class="userinfo pull-left">
+                                <div class="avatar">
+                                    <img src="{{ asset("images/avatar2.jpg") }}" alt="">
+                                    <div class="status red">&nbsp;</div>
+                                </div>
+
+                                <div class="icons">
+                                    <img src="{{ asset("images/icon3.jpg") }}" alt="">
+                                    <img src="{{ asset("images/icon4.jpg") }}" alt="">
+                                    <img src="{{ asset("images/icon5.jpg") }}" alt="">
+                                    <img src="{{ asset("images/icon6.jpg") }}" alt="">
+                                </div>
+                            </div>
+                            <div class="posttext pull-left">
+                                <h2>What Instagram Ads Will Look Like</h2>
+                                <p>Instagram offered a first glimpse at what its ads will look like in a blog post Thursday. The sample ad, which you can see below.</p>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="postinfo pull-left">
+                            <div class="comments">
+                                <div class="commentbg">
+                                    89
+                                    <div class="mark"></div>
+                                </div>
+
+                            </div>
+                            <div class="views"><i class="fa fa-eye"></i> 1,568</div>
+                            <div class="time"><i class="fa fa-clock-o"></i> 15 min</div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div><!-- POST -->
+
+
+                    <!-- POST -->
+                    <div class="post">
+                        <div class="wrap-ut pull-left">
+                            <div class="userinfo pull-left">
+                                <div class="avatar">
+                                    <img src="{{ asset("images/avatar3.jpg") }}" alt="">
+                                    <div class="status red">&nbsp;</div>
+                                </div>
+
+                                <div class="icons">
+                                    <img src="{{ asset("images/icon2.jpg") }}" alt="">
+                                    <img src="{{ asset("images/icon4.jpg") }}" alt="">
+                                </div>
+                            </div>
+                            <div class="posttext pull-left">
+                                <h2>The Future of Magazines Is on Tablets</h2>
+                                <p>Eric Schmidt has seen the future of magazines, and it's on the tablet. At a Magazine Publishers Association.</p>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="postinfo pull-left">
+                            <div class="comments">
+                                <div class="commentbg">
+                                    456
+                                    <div class="mark"></div>
+                                </div>
+
+                            </div>
+                            <div class="views"><i class="fa fa-eye"></i> 1,568</div>
+                            <div class="time"><i class="fa fa-clock-o"></i> 2 days</div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div><!-- POST -->
+                </div>
+
+                <div class="col-lg-4 col-md-4">
+                    <!-- -->
+                    <div class="sidebarblock">
+                        <h3>Categories</h3>
+                        <div class="divline"></div>
+                        <div class="blocktxt">
+                            <ul class="cats">
+                                <li><a href="#">Trading for Money <span class="badge pull-right">20</span></a></li>
+                                <li><a href="#">Vault Keys Giveway <span class="badge pull-right">10</span></a></li>
+                                <li><a href="#">Misc Guns Locations <span class="badge pull-right">50</span></a></li>
+                                <li><a href="#">Looking for Players <span class="badge pull-right">36</span></a></li>
+                                <li><a href="#">Stupid Bugs &amp; Solves <span class="badge pull-right">41</span></a></li>
+                                <li><a href="#">Video &amp; Audio Drivers <span class="badge pull-right">11</span></a></li>
+                                <li><a href="#">2K Official Forums <span class="badge pull-right">5</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- -->
+                    <div class="sidebarblock">
+                        <h3>Poll of the Week</h3>
+                        <div class="divline"></div>
+                        <div class="blocktxt">
+                            <p>Which game you are playing this week?</p>
+                            <form action="#" method="post" class="form">
+                                <table class="poll">
+                                    <tr>
+                                        <td>
+                                            <div class="progress">
+                                                <div class="progress-bar color1" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 90%">
+                                                    Call of Duty Ghosts
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="chbox">
+                                            <input id="opt1" type="radio" name="opt" value="1">
+                                            <label for="opt1"></label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="progress">
+                                                <div class="progress-bar color2" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 63%">
+                                                    Titanfall
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="chbox">
+                                            <input id="opt2" type="radio" name="opt" value="2" checked>
+                                            <label for="opt2"></label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="progress">
+                                                <div class="progress-bar color3" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 75%">
+                                                    Battlefield 4
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="chbox">
+                                            <input id="opt3" type="radio" name="opt" value="3">
+                                            <label for="opt3"></label>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                            <p class="smal">Voting ends on 19th of October</p>
+                        </div>
+                    </div>
+
+                    <!-- -->
+                    <div class="sidebarblock">
+                        <h3>My Active Threads</h3>
+                        <div class="divline"></div>
+                        <div class="blocktxt">
+                            <a href="#">This Dock Turns Your iPhone Into a Bedside Lamp</a>
+                        </div>
+                        <div class="divline"></div>
+                        <div class="blocktxt">
+                            <a href="#">Who Wins in the Battle for Power on the Internet?</a>
+                        </div>
+                        <div class="divline"></div>
+                        <div class="blocktxt">
+                            <a href="#">Sony QX10: A Funky, Overpriced Lens Camera for Your Smartphone</a>
+                        </div>
+                        <div class="divline"></div>
+                        <div class="blocktxt">
+                            <a href="#">FedEx Simplifies Shipping for Small Businesses</a>
+                        </div>
+                        <div class="divline"></div>
+                        <div class="blocktxt">
+                            <a href="#">Loud and Brave: Saudi Women Set to Protest Driving Ban</a>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        @yield('bottom-pagination')
     </section>
 
     <footer>
@@ -130,11 +355,15 @@
 <!-- get jQuery from the google apis -->
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.js"></script>
 
+<script src="{{ asset("js/jquery.form.min.js") }}"></script>
 
 <!-- SLIDER REVOLUTION 4.x SCRIPTS  -->
 <script type="text/javascript" src="{{ asset("rs-plugin/js/jquery.themepunch.plugins.min.js") }}"></script>
 <script type="text/javascript" src="{{ asset("rs-plugin/js/jquery.themepunch.revolution.min.js") }}"></script>
 <script src="{{ asset("js/bootstrap.min.js") }}"></script>
+<script src="{{ asset("bower_components/summernote/dist/summernote.min.js") }}"></script>
+<script src="{{ asset("bower_components/toastr/toastr.min.js") }}"></script>
+<script src="{{ asset("js/utility.js") }}"></script>
 
 
 <!-- LOOK THE DOCUMENTATION FOR MORE INFORMATIONS -->
@@ -154,6 +383,24 @@
             });
 
     });	//ready
+
+//    window.fbAsyncInit = function() {
+//        FB.init({
+//            appId      : '{your-app-id}',
+//            cookie     : true,
+//            xfbml      : true,
+//            version    : '{latest-api-version}'
+//        });
+//        FB.AppEvents.logPageView();
+//    };
+//
+//    (function(d, s, id){
+//        var js, fjs = d.getElementsByTagName(s)[0];
+//        if (d.getElementById(id)) {return;}
+//        js = d.createElement(s); js.id = id;
+//        js.src = "//connect.facebook.net/en_US/sdk.js";
+//        fjs.parentNode.insertBefore(js, fjs);
+//    }(document, 'script', 'facebook-jssdk'));
 
 </script>
 

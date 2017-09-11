@@ -16,6 +16,7 @@ class CreateUserSocialNetworksTable extends Migration
         Schema::create('user_social_networks', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
+            $table->text('avatar');
             $table->string('social_network');
             $table->string('url');
             $table->string('user_token');

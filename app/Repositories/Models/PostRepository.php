@@ -18,5 +18,4 @@ class PostRepository extends Repository
     {
         return 'App\Models\Post';
     }
-
 }

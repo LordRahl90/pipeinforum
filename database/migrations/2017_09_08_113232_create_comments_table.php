@@ -20,6 +20,7 @@ class CreateCommentsTable extends Migration
             $table->integer('quote_comment_id')->nullable();
             $table->longText('comment');
             $table->boolean('show');
+            $table->boolean('notification');
             $table->softDeletes();
             $table->timestamps();
         });

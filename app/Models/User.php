@@ -5,9 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 
-class User extends Model
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Auth\Authenticatable as AuthenticatableTrait;
+
+class User extends Model implements Authenticatable
 {
     use EntrustUserTrait;
+    use AuthenticatableTrait;
 
     protected $guarded=['deleted_on'];
 

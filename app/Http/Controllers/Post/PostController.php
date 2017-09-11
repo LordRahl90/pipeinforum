@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Post;
 
+use App\Utility\Utility;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Repositories\Models\PostCategoryRepository as PostCategory;
+use App\Repositories\Models\PostRepository as Post;
 
 class PostController extends Controller
 {
@@ -22,9 +25,10 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(PostCategory $postCategoryRepository)
     {
-        //
+        $categories=$postCategoryRepository->all();
+        return view('forum.newPost',['categories'=>$categories]);
     }
 
     /**
@@ -33,9 +37,43 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Post $postRepository)
     {
-        //
+        $request->validate([
+            'title'=>'required',
+            'subcategory'=>'required',
+            'content'=>'required'
+        ]);
+
+        $user_id=auth()->user()->id;
+
+        $poster=true;
+        $notification=false;
+
+        if($request->get('poster')!=null){
+            $poster=false;
+        }
+
+        if($request->get('notify')!=null){
+            $notification=true;
+        }
+
+        $newPostPayload=[
+            'user_id'=>$user_id,
+            'sub_category_id'=>$request->get('subcategory'),
+            'title'=>$request->get('title'),
+            'content'=>$request->get('content'),
+            'notification'=>$notification,
+            'status'=>$poster,
+        ];
+
+        $newPost=$postRepository->create($newPostPayload);
+
+        if(!$newPost){
+            return Utility::databaseError();
+        }
+
+        return Utility::success("Post Created Successfully...");
     }
 
     /**

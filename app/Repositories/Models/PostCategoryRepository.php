@@ -9,10 +9,16 @@
 namespace App\Repositories\Models;
 
 
-class PostCategoryRepository
+use App\Repositories\Eloquent\Repository;
+
+class PostCategoryRepository extends Repository
 {
     public function model()
     {
         return 'App\Models\PostCategory';
+    }
+
+    public function withRelationship($id){
+        return $this->model->with('subCategories')->find($id);
     }
 }

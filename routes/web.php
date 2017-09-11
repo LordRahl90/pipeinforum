@@ -18,8 +18,22 @@ Route::group(['prefix'=>'user'], function(){
    Route::get('/register','User\UserManagement@create');
    Route::post('/register','User\UserManagement@store');
 
+   Route::get('/register/facebook','User\SocialHandler@gotoFacebook');
+   Route::get('/register/social/facebook/callback','User\SocialHandler@facebookRegistration');
+
+   Route::get('login','User\UserManagement@showLogin');
+   Route::post('/login','User\UserManagement@login');
+
+
+   Route::get('profile','User\UserManagement@loadProfile');
    Route::get('/post/create','Post\PostController@create');
+   Route::post('/post/create','Post\PostController@store');
+
+   Route::post('/comment','Comments\CommentController@store');
 });
+
+Route::resource('category','PostCategoryController');
+Route::resource('subcategory','PostSubCategoryController');
 
 Route::group(['prefix'=>'admin'], function(){
 

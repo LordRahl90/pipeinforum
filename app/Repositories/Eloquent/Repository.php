@@ -106,4 +106,8 @@ abstract class Repository implements RepositoryInterface
         return $this->model->where($attribute, '=', $value)->first($columns);
     }
 
+    public function orderBy($attribute,$order="desc"){
+        return $this->model->orderBy($attribute,$order)->get();
+    }
+
 }

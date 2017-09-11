@@ -8,6 +8,9 @@
 
 namespace App\Utility;
 
+use Illuminate\Support\Facades\Request;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class Utility
 {
@@ -38,5 +41,20 @@ class Utility
      */
     public static function databaseError(){
         return response()->json(["status"=>"error","message"=>"An error occurred while connecting... Please try again"]);
+    }
+
+
+    static function collection_paginate($items, $per_page)
+    {
+        $page   = Request::get('page', 1);
+        $offset = ($page * $per_page) - $per_page;
+
+        return new LengthAwarePaginator(
+            $items->forPage($page, $per_page)->values(),
+            $items->count(),
+            $per_page,
+            Paginator::resolveCurrentPage(),
+            ['path' => Paginator::resolveCurrentPath()]
+        );
     }
 }

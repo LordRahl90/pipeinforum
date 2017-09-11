@@ -6,6 +6,7 @@ use App\Utility\Utility;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\Models\UserRepository as User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserManagement extends Controller
@@ -63,6 +64,37 @@ class UserManagement extends Controller
         }
 
         return Utility::success("User Created Successfully");
+    }
+
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function shoWLogin(){
+        return view('users.login');
+    }
+
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function login(Request $request){
+        $request->validate([
+            'username'=>'required|exists:users,username',
+            'password'=>'required|min:6'
+        ]);
+
+        if(!Auth::attempt(['username'=>$request->get('username'),'password'=>$request->get('password')])){
+            dd("Not su  ccessful");
+            return redirect()->back()->withErrors("error","Invalid username/password combination");
+        }
+        return redirect('/user/profile');
+    }
+
+
+    public function loadProfile(){
+        return view('users.profile');
     }
 
     /**
