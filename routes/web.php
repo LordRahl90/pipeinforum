@@ -27,15 +27,15 @@ Route::group(['prefix'=>'user'], function(){
    Route::post('/login','User\UserManagement@login');
 
 
-   Route::get('/profile','User\UserManagement@loadProfile');
-   Route::get('/post/create','Post\PostController@create');
-   Route::post('/post/create','Post\PostController@store');
+   Route::get('/profile','User\UserManagement@loadProfile')->middleware('auth');
+   Route::get('/post/create','Post\PostController@create')->middleware('auth');
+   Route::post('/post/create','Post\PostController@store')->middleware('auth');
 
-   Route::post('/post/react','Post\PostReactionController@reactToPost');
+   Route::post('/post/react','Post\PostReactionController@reactToPost')->middleware('auth');
 
-   Route::post('/comment','Comments\CommentController@store');
+   Route::post('/comment','Comments\CommentController@store')->middleware('auth');
 
-   Route::post('/comment/react','Comments\CommentReactionController@reactToComment');
+   Route::post('/comment/react','Comments\CommentReactionController@reactToComment')->middleware('auth');
 });
 
 Route::resource('category','PostCategoryController');
