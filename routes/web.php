@@ -14,6 +14,7 @@
 Route::get('/','Site\SiteMonitor@index');
 Route::get('/topic/{slug}','Site\SiteMonitor@loadFullPost');
 Route::get('/category/{slug}','Site\SiteMonitor@loadCategoryPosts');
+Route::get('/fetch/categort/{id}','Site\SiteMonitor@loadCategoryInfo');
 
 Route::group(['prefix'=>'user'], function(){
    Route::get('/register','User\UserManagement@create');

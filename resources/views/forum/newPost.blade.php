@@ -153,7 +153,7 @@
                var category=$(this).val();
 
                if(category!=""){
-                    $.get('/category/'+category, function(data){
+                    $.get('/fetch/category/'+category, function(data){
                        var sub_categories=data.sub_categories;
 
                        if(sub_categories.length > 0){
