@@ -72,7 +72,8 @@ class SiteMonitor extends Controller
 
 
     public function loadCategoryInfo($id, PostCategoryRepository $postCategoryRepository){
-        return $postCategoryRepository->find($id);
+        $categories=$postCategoryRepository->find($id);
+        return Utility::success($categories->subCategories);
     }
 
 
