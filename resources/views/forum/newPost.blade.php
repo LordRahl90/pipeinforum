@@ -155,6 +155,7 @@
                if(category!=""){
                     $.get('/fetch/category/'+category, function(data){
                        var sub_categories=data.sub_categories;
+                       console.log(data);
 
                        if(sub_categories.length > 0){
                            $("#subcategory").empty();
