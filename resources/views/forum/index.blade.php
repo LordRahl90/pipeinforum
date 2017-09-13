@@ -24,11 +24,15 @@
 
     @if(count($posts)>0)
         @foreach($posts as $post)
+            <?php
+              $owner=$post->owner;
+              $avatar=new \YoHang88\LetterAvatar\LetterAvatar($owner->first_name.' '.$owner->last_name);
+            ?>
             <div class="post">
                 <div class="wrap-ut pull-left">
                     <div class="userinfo pull-left">
                         <div class="avatar">
-                            <img src="{{ asset("images/avatar.jpg") }}" alt="" />
+                            <img src="{{ $avatar }}" alt="" />
                             <div class="status green">&nbsp;</div>
                         </div>
 
