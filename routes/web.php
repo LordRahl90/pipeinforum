@@ -12,7 +12,7 @@
 */
 
 Route::get('/','Site\SiteMonitor@index');
-Route::get('/login','User\UserManagement@showLogin');
+Route::get('login','User\UserManagement@showLogin');
 Route::get('/topic/{slug}','Site\SiteMonitor@loadFullPost');
 Route::get('/category/{slug}','Site\SiteMonitor@loadCategoryPosts');
 Route::get('/fetch/category/{id}','Site\SiteMonitor@loadCategoryInfo');
