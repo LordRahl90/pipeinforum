@@ -20,6 +20,12 @@
                 </ul>
             </div>
         @endif
+
+        @if(session('message'))
+            <div class="row alert alert-success alert-dismissable">
+                {{ session('message') }}
+            </div>
+        @endif
     </div>
 
     <div class="post">

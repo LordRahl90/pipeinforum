@@ -7,6 +7,7 @@
  */
 ?>
 @extends('partials.baselayout')
+@section('title',"New Forum Post")
 @section('content')
 
     <div class="row" style="padding-left: 5%; padding-right: 5%; padding-top:2%">

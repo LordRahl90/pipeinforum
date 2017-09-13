@@ -17,7 +17,11 @@ class SiteMonitor extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Post $postRepository){
-        $posts=$postRepository->orderBy('created_at');
+        $posts=[];
+        $ret_posts=$postRepository->orderBy('created_at');
+        if(count($ret_posts)>0){
+            $posts=$ret_posts;
+        }
         $paginated=Utility::collection_paginate($posts,5);
         return view('forum.index',['posts'=>$paginated]);
     }
@@ -29,7 +33,11 @@ class SiteMonitor extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function loadFullPost($slug,Post $postRepository, CommentRepository $commentRepository){
-        $post=$postRepository->findBy('slug',$slug);
+        $post=[];
+        $ret_post=$postRepository->findBy('slug',$slug);
+        if(count($ret_post)>0){
+            $post=$ret_post;
+        }
         return view('forum.story',['post'=>$post,'commentRepo'=>$commentRepository]);
     }
 

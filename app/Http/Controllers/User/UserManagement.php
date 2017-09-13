@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Repositories\Models\UserRepository as User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class UserManagement extends Controller
 {
@@ -63,7 +64,8 @@ class UserManagement extends Controller
             return Utility::error("An error occurred... Please try again");
         }
 
-        return Utility::success("User Created Successfully");
+        return redirect('/user/login')->with("message","User Registration successful... Proceed to login");
+//        return Utility::success("User Created Successfully");
     }
 
 
@@ -86,7 +88,7 @@ class UserManagement extends Controller
         ]);
 
         if(!Auth::attempt(['username'=>$request->get('username'),'password'=>$request->get('password')])){
-            dd("Not su  ccessful");
+            dd("Not successful");
             return redirect()->back()->withErrors("error","Invalid username/password combination");
         }
         return redirect('/user/profile');

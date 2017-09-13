@@ -28,12 +28,18 @@
                 </ul>
             </div>
         @endif
+
+        @if(session('message'))
+        <div class="row alert alert-success alert-dismissable">
+            {{ session('message') }}
+        </div>
+        @endif
         <div class="row">
             <div class="col-lg-8 col-md-8">
 
                 <!-- POST -->
                 <div class="post">
-                    <form action="/user/register" class="form newtopic" method="post">
+                    <form action="/user/register" class="form newtopic" method="post" id="newUserForm">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="postinfotop">
                             <h2>Create New Account</h2>
@@ -210,154 +216,6 @@
                             </div>
                         </div><!-- acc section END -->
 
-
-
-                        <!-- acc section -->
-                        {{--<div class="accsection survey">--}}
-                            {{--<div class="acccap">--}}
-                                {{--<div class="userinfo pull-left">&nbsp;</div>--}}
-                                {{--<div class="posttext pull-left">--}}
-                                    {{--<div class="htext">--}}
-                                        {{--<h3>Small Survey ( Optional )</h3>--}}
-                                    {{--</div>--}}
-                                    {{--<div class="hnotice">--}}
-                                        {{--Answer this survey and Earn this Badge : <img src="images/icon5.jpg" alt="" />--}}
-                                    {{--</div>--}}
-                                    {{--<div class="clearfix"></div>--}}
-                                {{--</div>--}}
-                                {{--<div class="clearfix"></div>--}}
-                            {{--</div>--}}
-                            {{--<div class="topwrap">--}}
-                                {{--<div class="userinfo pull-left">&nbsp;</div>--}}
-                                {{--<div class="posttext pull-left">--}}
-
-                                    {{--<div class="row">--}}
-                                        {{--<div class="col-lg-6 col-md-6">--}}
-                                            {{--<select name="old" id="old"  class="form-control" >--}}
-                                                {{--<option value="" disabled selected>How Old are you?</option>--}}
-                                                {{--<option value="op1">Option1</option>--}}
-                                                {{--<option value="op2">Option2</option>--}}
-                                            {{--</select>--}}
-                                        {{--</div>--}}
-                                        {{--<div class="col-lg-6 col-md-6">--}}
-                                            {{--<select name="who" id="who"  class="form-control" >--}}
-                                                {{--<option value="" disabled selected>Who are you?</option>--}}
-                                                {{--<option value="op1">Option1</option>--}}
-                                                {{--<option value="op2">Option2</option>--}}
-                                            {{--</select>--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                    {{--<div class="row">--}}
-                                        {{--<div class="col-lg-6 col-md-6">--}}
-                                            {{--<select name="help" id="help"  class="form-control" >--}}
-                                                {{--<option value="" disabled selected>Will you help others here?</option>--}}
-                                                {{--<option value="op1">Option1</option>--}}
-                                                {{--<option value="op2">Option2</option>--}}
-                                            {{--</select>--}}
-                                        {{--</div>--}}
-                                        {{--<div class="col-lg-6 col-md-6">--}}
-                                            {{--<select name="hear" id="hear"  class="form-control" >--}}
-                                                {{--<option value="" disabled selected>Where do you hear about us?</option>--}}
-                                                {{--<option value="op1">Option1</option>--}}
-                                                {{--<option value="op2">Option2</option>--}}
-                                            {{--</select>--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                    {{--<div class="row newtopcheckbox">--}}
-                                        {{--<div class="col-lg-6 col-md-6">--}}
-                                            {{--<div><p>Some other question 1</p></div>--}}
-                                            {{--<div class="row">--}}
-                                                {{--<div class="col-lg-6 col-md-6">--}}
-                                                    {{--<div class="checkbox">--}}
-                                                        {{--<label>--}}
-                                                            {{--<input type="checkbox" id="everyone2" /> option 1--}}
-                                                        {{--</label>--}}
-                                                    {{--</div>--}}
-                                                {{--</div>--}}
-                                                {{--<div class="col-lg-6 col-md-6">--}}
-                                                    {{--<div class="checkbox">--}}
-                                                        {{--<label>--}}
-                                                            {{--<input type="checkbox" id="friends2"  /> option 2--}}
-                                                        {{--</label>--}}
-                                                    {{--</div>--}}
-                                                {{--</div>--}}
-                                            {{--</div>--}}
-                                        {{--</div>--}}
-                                        {{--<div class="col-lg-6 col-md-6">--}}
-                                            {{--<div>--}}
-                                                {{--<p>Some other question 2</p>--}}
-                                            {{--</div>--}}
-                                            {{--<div class="row">--}}
-                                                {{--<div class="col-lg-6 col-md-6">--}}
-                                                    {{--<div class="checkbox">--}}
-                                                        {{--<label>--}}
-                                                            {{--<input type="checkbox" id="fb2"/> option 1--}}
-                                                        {{--</label>--}}
-                                                    {{--</div>--}}
-                                                {{--</div>--}}
-                                                {{--<div class="col-lg-6 col-md-6">--}}
-                                                    {{--<div class="checkbox">--}}
-                                                        {{--<label>--}}
-                                                            {{--<input type="checkbox" id="tw2" /> option 2--}}
-                                                        {{--</label>--}}
-                                                    {{--</div>--}}
-                                                {{--</div>--}}
-
-                                            {{--</div>--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                                {{--<div class="clearfix"></div>--}}
-                            {{--</div>--}}
-                        {{--</div><!-- acc section END -->--}}
-
-
-                        <!-- acc section -->
-                        {{--<div class="accsection networks">--}}
-                            {{--<div class="acccap">--}}
-                                {{--<div class="userinfo pull-left">&nbsp;</div>--}}
-                                {{--<div class="posttext pull-left">--}}
-                                    {{--<div class="htext">--}}
-                                        {{--<h3>Social Networks ( Optional )</h3>--}}
-                                    {{--</div>--}}
-                                    {{--<div class="hnotice">--}}
-                                        {{--Link Social Networks and Earn this Badge : <img src="images/icon6.jpg" alt="" />--}}
-                                    {{--</div>--}}
-                                    {{--<div class="clearfix"></div>--}}
-                                {{--</div>--}}
-                                {{--<div class="clearfix"></div>--}}
-                            {{--</div>--}}
-                            {{--<div class="topwrap">--}}
-                                {{--<div class="userinfo pull-left">&nbsp;</div>--}}
-                                {{--<div class="posttext pull-left">--}}
-
-                                    {{--<div class="row">--}}
-                                        {{--<div class="col-lg-6 col-md-6">--}}
-                                            {{--<button class="btn btn-fb">Link Facebook Account</button>--}}
-                                        {{--</div>--}}
-                                        {{--<div class="col-lg-6 col-md-6">--}}
-                                            {{--<button class="btn btn-tw">Link Twitter Account</button>--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-
-                                    {{--<div class="row">--}}
-                                        {{--<div class="col-lg-6 col-md-6">--}}
-                                            {{--<button class="btn btn-gp">Link Google + Account</button>--}}
-                                        {{--</div>--}}
-                                        {{--<div class="col-lg-6 col-md-6">--}}
-                                            {{--<button class="btn btn-pin">Link Pinterest Account</button>--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-
-                                {{--</div>--}}
-                                {{--<div class="clearfix"></div>--}}
-                            {{--</div>--}}
-                        {{--</div><!-- acc section END -->--}}
-
-
-
-
-
                         <div class="postinfobot">
 
                             <div class="notechbox pull-left">
@@ -370,7 +228,11 @@
 
                             <div class="pull-right postreply">
                                 <div class="pull-left smile"><a href="#"><i class="fa fa-smile-o"></i></a></div>
-                                <div class="pull-left"><button type="submit" class="btn btn-primary">Sign Up</button></div>
+                                <div class="pull-left">
+                                    <button type="button" id="registerUserButton" class="btn btn-primary">
+                                        Sign Up
+                                    </button>
+                                </div>
                                 <div class="clearfix"></div>
                             </div>
 
@@ -394,6 +256,13 @@
         function statusChangeCallBack(response) {
             console.log(response);
         }
+
+
+        $(function(){
+            $("#registerUserButton").click(function(){
+                $("#newUserForm").submit();
+            });
+        });
     </script>
 
 

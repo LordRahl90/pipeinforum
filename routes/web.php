@@ -38,6 +38,31 @@ Route::resource('subcategory','PostSubCategoryController');
 
 Route::group(['prefix'=>'admin'], function(){
 
+    Route::get('/','Admin\User\UserController@loadLogin');
+    Route::get('/dashboard','Admin\User\UserController@loadDashboard');
+
+    Route::post('/login','Admin\User\UserController@login');
+
+    Route::get('/user/create','Admin\User\UserController@showApproveAdmin');
+    Route::post('/user/details','Admin\User\UserController@returnUserDetails');
+    Route::post('/user/create','Admin\User\UserController@approveAdmin');
+    Route::post('/user/delete','Admin\User\UserController@removeAdmin');
+    Route::get('/user/list','Admin\User\UserController@listAdminUsers');
+
+
+    Route::get('/category/create','Admin\Category\CategoryController@create');
+    Route::post('/category/create','Admin\Category\CategoryController@store');
+
+    Route::get('/category/list','Admin\Category\CategoryController@index');
+
+    Route::get('/sub-category/create','Admin\Category\SubCategoryController@create');
+    Route::post('/sub-category/create','Admin\Category\SubCategoryController@store');
+
+    Route::get('/sub-category/list','Admin\Category\SubCategoryController@index');
+
+
+
+
 });
 
 Route::get('/signout','Site\SiteMonitor@signOut');

@@ -9,6 +9,14 @@
 $topCategories=\App\Utility\Utility::getTopCategories();
 $activeThreads=\App\Utility\Utility::getActiveThreads();
 
+if(!auth()->check()){
+    $avatar=new \YoHang88\LetterAvatar\LetterAvatar("Guest");
+}
+else{
+    $user=auth()->user();
+    $avatar=new \YoHang88\LetterAvatar\LetterAvatar($user->first_name.' '.$user->last_name);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -102,14 +110,11 @@ $activeThreads=\App\Utility\Utility::getActiveThreads();
                                 {{--</form>--}}
                             </div>
                         @endif
-                        {{--<form action="http://forum.azyrusthemes.com/03_new_topic.html" method="post" class="form">--}}
-                            {{--<a href="/user/post/create" class="btn btn-primary">Start New Topic</a>--}}
-                        {{--</form>--}}
                     </div>
                     <div class="env pull-left"><i class="fa fa-envelope"></i></div>
 
                     <div class="avatar pull-left dropdown">
-                        <a data-toggle="dropdown" href="#"><img src="{{ asset("images/avatar.jpg") }}" alt="" /></a> <b class="caret"></b>
+                        <a data-toggle="dropdown" href="#"><img src="{{ $avatar }}" alt="" /></a> <b class="caret"></b>
                         <div class="status green">&nbsp;</div>
                         <ul class="dropdown-menu" role="menu">
                             {{--<li role="presentation">--}}
@@ -358,12 +363,11 @@ $activeThreads=\App\Utility\Utility::getActiveThreads();
                 <div class="col-lg-8 col-xs-9 col-sm-5 ">Copyrights {{ Date('Y') }}, http://www.pipein.com.ng</div>
                 <div class="col-lg-3 col-xs-12 col-sm-5 sociconcent">
                     <ul class="socialicons">
-                        <li><a href="#"><i class="fa fa-facebook-square"></i></a></li>
-                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                        <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-                        <li><a href="#"><i class="fa fa-cloud"></i></a></li>
-                        <li><a href="#"><i class="fa fa-rss"></i></a></li>
+                        <li>
+                            <a href="/admin">
+                                Admin Login
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -372,7 +376,7 @@ $activeThreads=\App\Utility\Utility::getActiveThreads();
 </div>
 
 <!-- get jQuery from the google apis -->
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.js"></script>
+<script src="{{ asset("bower_components/jquery/dist/jquery.min.js") }}"></script>
 
 <script src="{{ asset("js/jquery.form.min.js") }}"></script>
 

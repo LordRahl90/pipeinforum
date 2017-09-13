@@ -21,4 +21,8 @@ class PostCategoryRepository extends Repository
     public function withRelationship($id){
         return $this->model->with('subCategories')->find($id);
     }
+
+    public function withRelationships(){
+        return $this->model->withCount(['subCategories','posts'])->get();
+    }
 }
