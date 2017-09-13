@@ -56,8 +56,12 @@ class SiteMonitor extends Controller
      */
     public function loadCategoryPosts($slug, PostCategoryRepository $postCategoryRepository){
         $category=$postCategoryRepository->findBy('slug',$slug);
-        if(count($category->posts)>0){
-            $posts=Utility::collection_paginate($category->posts,10);
+        if($category->posts!=null){
+            if(count($category->posts)>0){
+                $posts=Utility::collection_paginate($category->posts,10);
+            }else{
+                $posts=[];
+            }
         }else{
             $posts=[];
         }
