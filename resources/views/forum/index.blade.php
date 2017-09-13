@@ -12,7 +12,9 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-xs-12">
-                {!! $posts->links() !!}
+                @if(count($posts)>0)
+                    {!! $posts->links() !!}
+                @endif
                 <div class="clearfix"></div>
             </div>
         </div>
@@ -94,7 +96,9 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-xs-12 col-md-8">
-                {{ $posts->links() }}
+                @if(count($posts)>0)
+                    {!! $posts->links() !!}
+                @endif
                 <div class="clearfix"></div>
             </div>
         </div>
