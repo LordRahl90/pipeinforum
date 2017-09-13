@@ -12,7 +12,7 @@
 */
 
 Route::get('/','Site\SiteMonitor@index');
-Route::get('login','User\UserManagement@showLogin');
+//Route::get('login','User\UserManagement@showLogin');
 Route::get('/topic/{slug}','Site\SiteMonitor@loadFullPost');
 Route::get('/category/{slug}','Site\SiteMonitor@loadCategoryPosts');
 Route::get('/fetch/category/{id}','Site\SiteMonitor@loadCategoryInfo');
@@ -24,7 +24,7 @@ Route::group(['prefix'=>'user'], function(){
    Route::get('/register/facebook','User\SocialHandler@gotoFacebook');
    Route::get('/register/social/facebook/callback','User\SocialHandler@facebookRegistration');
 
-   Route::get('login','User\UserManagement@showLogin');
+   Route::get('login','User\UserManagement@showLogin')->name('login');
    Route::post('/login','User\UserManagement@login');
 
 
