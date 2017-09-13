@@ -22,7 +22,11 @@ class SiteMonitor extends Controller
         if(count($ret_posts)>0){
             $posts=$ret_posts;
         }
-        $paginated=Utility::collection_paginate($posts,5);
+        if(count($posts)>0){
+            $paginated=Utility::collection_paginate($posts,5);
+        }else{
+            $paginated=$posts;
+        }
         return view('forum.index',['posts'=>$paginated]);
     }
 
