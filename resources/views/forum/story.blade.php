@@ -8,7 +8,8 @@
 
 $comments=\App\Utility\Utility::collection_paginate($post->comments,5);
 
-//dd($comments);
+$likes=\App\Models\PostReaction::whereRaw('post_id=? and reaction=?',[$post->id,"like"])->get();
+$dislikes=\App\Models\PostReaction::whereRaw('post_id=? and reaction=?',[$post->id,"dislike"])->get();
 ?>
 @extends('partials.index-partial')
 @section('title',$post->title)
@@ -43,6 +44,7 @@ $comments=\App\Utility\Utility::collection_paginate($post->comments,5);
 
     <div class="container">
         <div class="row">
+            <input type="hidden" name="post_id" class="post_id" value="{{ $post->id }}" />
             <div class="col-lg-8 col-md-8">
                 <!-- POST -->
                 <div class="post beforepagination">
@@ -71,12 +73,29 @@ $comments=\App\Utility\Utility::collection_paginate($post->comments,5);
                         <div class="clearfix"></div>
                     </div>
                     <div class="postinfobot">
-
-                        <div class="likeblock pull-left">
-                            <a href="#" class="up"><i class="fa fa-thumbs-o-up"></i>25</a>
-                            <a href="#" class="down"><i class="fa fa-thumbs-o-down"></i>3</a>
-                        </div>
-
+                        @if(auth()->check())
+                            <div class="likeblock pull-left">
+                                <a href="#" class="up post_up">
+                                    <i class="fa fa-thumbs-o-up"></i>
+                                    {{ $likes->count() }}
+                                </a>
+                                <a href="#" class="down post_down">
+                                    <i class="fa fa-thumbs-o-down"></i>
+                                    {{ $dislikes->count() }}
+                                </a>
+                            </div>
+                        @else
+                            <div class="likeblock pull-left">
+                                <a href="#" class="up">
+                                    <i class="fa fa-thumbs-o-up"></i>
+                                    {{ $likes->count() }}
+                                </a>
+                                <a href="#" class="down">
+                                    <i class="fa fa-thumbs-o-down"></i>
+                                    {{ $dislikes->count() }}
+                                </a>
+                            </div>
+                        @endif
                         <div class="prev pull-left">
                             <a href="#comment"><i class="fa fa-reply"></i></a>
                         </div>
@@ -113,20 +132,32 @@ $comments=\App\Utility\Utility::collection_paginate($post->comments,5);
                     </div>
 
                     @foreach($comments as $comment)
+                        <?php
+                            $comment_id=$comment->id;
+                    $comment_likes=\App\Models\PostReaction::whereRaw('comment_id=? and reaction=?',[$comment->id,
+                        "like"])
+                            ->get();
+                    $comment_dislikes=\App\Models\PostReaction::whereRaw('comment_id=? and reaction=?',[$comment->id,
+                            "dislike"])->get();
+
+                    $comment_owner=new \YoHang88\LetterAvatar\LetterAvatar($comment->owner->first_name.' '
+                        .$comment->owner->last_name);
+
+                        ?>
                         <!-- POST -->
                             <div class="post">
                                 <div class="topwrap">
                                     <div class="userinfo pull-left">
                                         <div class="avatar">
-                                            <img src="{{ asset("images/icon3.jpg") }}" alt="" />
+                                            <img src="{{ $comment_owner }}" alt="" />
                                             <div class="status red">&nbsp;</div>
                                         </div>
 
                                         <div class="icons">
-                                            {{--<img src="{{ asset("images/icon3.jpg") }}" alt="" />--}}
-                                            {{--<img src="{{ asset("images/icon4.jpg") }}" alt="" />--}}
-                                            {{--<img src="{{ asset("images/icon5.jpg") }}" alt="" />--}}
-                                            {{--<img src="{{ asset("images/icon6.jpg") }}" alt="" />--}}
+                                            <img src="{{ asset("images/icon3.jpg") }}" alt="" />
+                                            <img src="{{ asset("images/icon4.jpg") }}" alt="" />
+                                            <img src="{{ asset("images/icon5.jpg") }}" alt="" />
+                                            <img src="{{ asset("images/icon6.jpg") }}" alt="" />
                                         </div>
                                     </div>
                                     <div class="posttext pull-left" style="word-break-wrap: break">
@@ -151,10 +182,25 @@ $comments=\App\Utility\Utility::collection_paginate($post->comments,5);
                                 </div>
                                 <div class="postinfobot">
 
-                                    <div class="likeblock pull-left">
-                                        <a href="#" class="up"><i class="fa fa-thumbs-o-up"></i>55</a>
-                                        <a href="#" class="down"><i class="fa fa-thumbs-o-down"></i>12</a>
-                                    </div>
+                                    @if(auth()->check())
+                                        <div class="likeblock pull-left">
+                                            <a href="#" class="up comment_up">
+                                                <i class="fa fa-thumbs-o-up"></i>{{ $comment_likes->count() }}</a>
+                                            <a href="#" class="down comment_down">
+                                                <i class="fa fa-thumbs-o-down"></i>
+                                                {{ $comment_dislikes->count() }}
+                                            </a>
+                                        </div>
+                                    @else
+                                        <div class="likeblock pull-left">
+                                            <a href="#" class="up">
+                                                <i class="fa fa-thumbs-o-up"></i>{{ $comment_likes->count() }}</a>
+                                            <a href="#" class="down">
+                                                <i class="fa fa-thumbs-o-down"></i>
+                                                {{ $comment_dislikes->count() }}
+                                            </a>
+                                        </div>
+                                    @endif
 
                                     <div class="prev pull-left">
                                         <input type="hidden" name="comment_id" class="comment_id" value="{{ $comment->id }}" />
@@ -182,11 +228,15 @@ $comments=\App\Utility\Utility::collection_paginate($post->comments,5);
 
 
                 @if(\Illuminate\Support\Facades\Auth::check())
+                    <?php
+                        $owner=auth()->user();
+                        $owner_avatar=new \YoHang88\LetterAvatar\LetterAvatar($owner->first_name.' '.$owner->last_name);
+                    ?>
                 <!-- POST -->
                     <div class="post" id="comment">
                         <form action="/user/comment" class="form" method="post" id="postCommentForm">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-                            <input type="hidden" name="post_id" value="{{ $post->id }}" />
+                            <input type="hidden" name="post_id" id="post_id" class="post_id" value="{{ $post->id }}" />
 
                             <div id="quoted_post" style="display: none; padding:2%;">
                                 <input type="hidden" name="quote_comment_id" id="quote_comment_id" value="" />
@@ -198,7 +248,7 @@ $comments=\App\Utility\Utility::collection_paginate($post->comments,5);
                             <div class="topwrap">
                                 <div class="userinfo pull-left">
                                     <div class="avatar">
-                                        <img src="{{ asset("images/avatar4.jpg") }}" alt="" />
+                                        <img src="{{ $owner_avatar }}" alt="" />
                                         <div class="status red">&nbsp;</div>
                                     </div>
 
@@ -290,6 +340,77 @@ $comments=\App\Utility\Utility::collection_paginate($post->comments,5);
 
             $(".close").click(function(){
                $("#quote_comment_id").val("");
+            });
+
+
+            $(".post_up").click(function(e){
+                e.preventDefault();
+
+                var post_id=$(".post_id").val();
+                var reaction="like";
+                $.post('/user/post/react',{_token:'{{ csrf_token() }}',post_id:post_id,reaction:reaction},
+                    function(data){
+                   if(data.status!='success'){
+                       error(data.message);
+                       return;
+                   }
+
+                   success(data.message);
+                   location.reload();
+                });
+            });
+
+            $(".post_down").click(function(e){
+                e.preventDefault();
+
+                var post_id=$(".post_id").val();
+                var reaction="dislike";
+                $.post('/user/post/react',{_token:'{{ csrf_token() }}',post_id:post_id,reaction:reaction},
+                    function(data){
+                   if(data.status!='success'){
+                       error(data.message);
+                       return;
+                   }
+                   success(data.message);
+                   location.reload();
+                });
+            });
+
+
+            $(".comment_up").click(function(e){
+                e.preventDefault();
+                var comment_id=$(this).closest('.post').find('.comment_id').val();
+                var reaction='like';
+
+                $.post('/user/comment/react',{_token:'{{ csrf_token() }}',comment_id:comment_id,reaction:reaction},
+                    function(data){
+                   if(data.status!='success'){
+                       error(data.message);
+                       return;
+                   }
+
+                   success(data.message);
+                   location.reload();
+                });
+
+            });
+
+            $(".comment_down").click(function(e){
+                e.preventDefault();
+                var comment_id=$(this).closest('.post').find('.comment_id').val();
+                var reaction='dislike';
+
+                $.post('/user/comment/react',{_token:'{{ csrf_token() }}',comment_id:comment_id,reaction:reaction},
+                    function(data){
+                   if(data.status!='success'){
+                       error(data.message);
+                       return;
+                   }
+
+                   success(data.message);
+                   location.reload();
+                });
+
             });
         });
     </script>

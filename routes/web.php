@@ -30,7 +30,11 @@ Route::group(['prefix'=>'user'], function(){
    Route::get('/post/create','Post\PostController@create');
    Route::post('/post/create','Post\PostController@store');
 
+   Route::post('/post/react','Post\PostReactionController@reactToPost');
+
    Route::post('/comment','Comments\CommentController@store');
+
+   Route::post('/comment/react','Comments\CommentReactionController@reactToComment');
 });
 
 Route::resource('category','PostCategoryController');
@@ -59,10 +63,6 @@ Route::group(['prefix'=>'admin'], function(){
     Route::post('/sub-category/create','Admin\Category\SubCategoryController@store');
 
     Route::get('/sub-category/list','Admin\Category\SubCategoryController@index');
-
-
-
-
 });
 
 Route::get('/signout','Site\SiteMonitor@signOut');

@@ -18,4 +18,11 @@ class CommentRepository extends Repository
         return 'App\Models\Comment';
     }
 
+    public function likes($comment_id){
+        return $this->model->whereRaw("comment_id=? and reaction=?",[$comment_id,"like"]);
+    }
+
+    public function dislikes($comment_id){
+        return $this->model->whereRaw("comment_id=? and reaction=?",[$comment_id,"dislike"]);
+    }
 }

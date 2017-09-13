@@ -38,7 +38,10 @@ class SiteMonitor extends Controller
         if(count($ret_post)>0){
             $post=$ret_post;
         }
-        return view('forum.story',['post'=>$post,'commentRepo'=>$commentRepository]);
+        return view('forum.story',[
+            'post'=>$post,
+            'commentRepo'=>$commentRepository
+        ]);
     }
 
 

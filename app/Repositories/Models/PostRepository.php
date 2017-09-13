@@ -23,4 +23,12 @@ class PostRepository extends Repository
     public function activeThreads(){
         return $this->model->withCount('comment')->get();
     }
+
+    public function likes($post_id){
+        return $this->model->whereRaw("post_id=? and reaction=?",[$post_id,"like"]);
+    }
+
+    public function dislikes($post_id){
+        return $this->model->whereRaw("post_id=? and reaction=?",[$post_id,"dislike"]);
+    }
 }

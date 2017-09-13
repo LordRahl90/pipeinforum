@@ -5,6 +5,9 @@
  * Date: 12/09/2017
  * Time: 8:00 PM
  */
+
+$user=auth()->user();
+$avatar=new \YoHang88\LetterAvatar\LetterAvatar($user->first_name.' '.$user->last_name);
 ?>
 <!DOCTYPE html>
 <html>
@@ -66,16 +69,16 @@
                 <ul class="nav navbar-nav">
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                            <span class="hidden-xs">Alexander Pierce</span>
+                            <img src="{{ $avatar }}" class="user-image" alt="User Image">
+                            <span class="hidden-xs">{{ $user->first_name.'  '.$user->last_name }}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
-                                <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                                <img src="{{ $avatar }}" class="img-circle" alt="User Image">
 
-                                <p>Alexander Pierce - Web Developer
-                                    <small>Member since Nov. 2012</small>
+                                <p>{{ $user->first_name.'  '.$user->last_name }}
+                                    <small>Member since {{ Date('M. Y',strtotime($user->create_at)) }}</small>
                                 </p>
                             </li>
                             <!-- Menu Body -->
@@ -122,10 +125,10 @@
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                    <img src="{{ $avatar }}" class="img-circle" alt="User Image">
                 </div>
                 <div class="pull-left info">
-                    <p>Alexander Pierce</p>
+                    <p>{{ $user->first_name.' '.$user->last_name }}</p>
                     <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                 </div>
             </div>
