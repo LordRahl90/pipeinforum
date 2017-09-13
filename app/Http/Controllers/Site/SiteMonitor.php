@@ -8,6 +8,7 @@ use App\Utility\Utility;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\Models\PostRepository as Post;
+use Illuminate\Support\Facades\Log;
 
 class SiteMonitor extends Controller
 {
@@ -65,6 +66,9 @@ class SiteMonitor extends Controller
         }else{
             $posts=[];
         }
+
+        Log::info($category);
+        return "Tested";
         return view('forum.categoryPosts',['posts'=>$posts,'category'=>$category->category]);
     }
 
