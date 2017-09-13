@@ -25,10 +25,18 @@ class UserController extends Controller
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function loadDashboard(){
+    public function loadDashboard(AdminUserRepository $adminUserRepository){
         if(!auth()->check()){
             return redirect('/');
         }
+
+        $admin_id=auth()->user()->id;
+        $checkIfAdmin=$adminUserRepository->findBy('user_id',$admin_id);
+
+        if(count($checkIfAdmin)<=0){
+            return redirect()->back()->withErrors("User not an Admin");
+        }
+
         return view("admin.dashboard");
     }
 
