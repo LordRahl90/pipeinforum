@@ -58,7 +58,7 @@ class SiteMonitor extends Controller
     public function loadCategoryPosts($slug, PostCategoryRepository $postCategoryRepository){
         $category=$postCategoryRepository->findBy('slug',$slug);
 
-        Log::info($category);
+        Log::info($category.' '.$slug);
         return "Tested";
         if($category!=null){
             if(count($category->posts)>0){
