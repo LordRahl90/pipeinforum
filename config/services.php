@@ -37,7 +37,7 @@ return [
 
     'facebook'=>[
         'client_id'=>env("FACEBOOK_CLIENT_ID"),
-        'client_secret'=>,
+        'client_secret'=>env("FACEBOOK_SECRET"),
         'redirect'=>"http://pipeinforum.dev/user/register/social/facebook/callback"
     ]
 

@@ -6,4 +6,9 @@ RUN apt-get update && apt-get install -y libmcrypt-dev mysql-client && docker-ph
     && docker-php-ext-install gd \
     && apt-get install nano
 
+
+
+ADD ../. /var/www
+
+
 WORKDIR /var/www
