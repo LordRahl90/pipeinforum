@@ -27,41 +27,40 @@ services:
       - redis
       - elasticsearch
 
-#    environment:
-#      - "DB_PORT=3306"
-#      - "DB_HOST=127.0.0.1"
-#      - "DB_USERNAME=root"
-#      - "DB_PASSWORD=secret"
 
   database:
     container_name: "pipein_db"
     image: mysql:5.7
+    hostname: database
     environment:
-      - MYSQL_DATABASE=homestead
-      - MYSQL_USER=homestead
+      - MYSQL_DATABASE=pipein
+      - MYSQL_USER=root
       - MYSQL_PASSWORD=secret
-      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=secret
 
     ports:
-      - "33061:3306"
+      - 3306
 
   mongo:
     image: mongo
+    hostname: mongo
     container_name: "pipein_mongo"
     ports:
-      - "27018:27017"
+      - 27017
 
   redis:
     image: redis
+    hostname: redis
     ports:
-      - "63791:6379"
+      - 6379
 
   elasticsearch:
     image: elasticsearch
+    hostname: elasticsearch
     container_name: "pipein_search"
     ports:
-      - "9201:9200"
-      - "9301:9300"
+      - 9200
+      - 9300
 
 
 

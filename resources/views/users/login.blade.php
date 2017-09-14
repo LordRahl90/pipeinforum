@@ -32,7 +32,7 @@
         <form action="/user/login" class="form newtopic" method="post">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="postinfotop">
-                <h2>Create New Account</h2>
+                <h2>Sign In</h2>
             </div>
 
             <!-- acc section -->
