@@ -112,7 +112,8 @@ $dislikes=\App\Models\PostReaction::whereRaw('post_id=? and reaction=?',[$post->
 
                         <div class="clearfix"></div>
                     </div>
-                </div><!-- POST -->
+                </div>
+                <!-- POST -->
 
                 <div class="row similarposts" style="padding-top: 2%">
                     <div class="col-lg-10">
@@ -218,13 +219,10 @@ $dislikes=\App\Models\PostReaction::whereRaw('post_id=? and reaction=?',[$post->
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
-                            </div><!-- POST -->
-
+                            </div>
+                            <!-- POST -->
                     @endforeach
-                @else
-
                 @endif
-
 
 
                 @if(\Illuminate\Support\Facades\Auth::check())
@@ -263,7 +261,7 @@ $dislikes=\App\Models\PostReaction::whereRaw('post_id=? and reaction=?',[$post->
                                     <div class="textwraper">
                                         <div class="postreply">Post a Reply</div>
                                         <textarea name="reply" id="reply" placeholder="Type your message
-                                    here"></textarea>
+                                        here"></textarea>
                                     </div>
                                 </div>
                                 <div class="clearfix"></div>
@@ -392,7 +390,6 @@ $dislikes=\App\Models\PostReaction::whereRaw('post_id=? and reaction=?',[$post->
                    success(data.message);
                    location.reload();
                 });
-
             });
 
             $(".comment_down").click(function(e){
@@ -406,7 +403,6 @@ $dislikes=\App\Models\PostReaction::whereRaw('post_id=? and reaction=?',[$post->
                        error(data.message);
                        return;
                    }
-
                    success(data.message);
                    location.reload();
                 });

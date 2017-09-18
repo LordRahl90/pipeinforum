@@ -198,7 +198,7 @@ else{
                                                                      aria-valuenow="40"
                                                                      aria-valuemin="0" aria-valuemax="100"
                                                                      style="width: {{ $percentage }}%">
-                                                                    {{ $option->option }} ({{ number_format($percentage,2) }}%)
+                                                                    {{ $option->option }} ({{ number_format($percentage) }}%)
                                                                 </div>
                                                             </div>
                                                         </td>
@@ -208,7 +208,6 @@ else{
                                             @else
                                                 @foreach($topPoll->options as $option)
                                                     <tr>
-
                                                         @if(auth()->check())
                                                             <td>
                                                                 <div class="progress">

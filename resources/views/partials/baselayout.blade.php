@@ -307,7 +307,6 @@ else{
                                 ($topPoll->created_at)) }}</p>
                             </div>
                         </div>
-
                 @endif
 
                     <!-- -->

@@ -126,4 +126,12 @@ class PollManager
         return Utility::success("Voting Completed");
     }
 
+    public function getAllPolls(){
+        return $this->polls->all();
+    }
+
+    public function getOnePoll($attr,$value){
+        return $this->polls->findBy($attr,$value);
+    }
+
 }

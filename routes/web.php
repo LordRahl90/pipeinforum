@@ -77,7 +77,12 @@ Route::group(['prefix'=>'admin'], function(){
 });
 
 Route::group(['prefix'=>'polls'], function(){
+
+   Route::get('/','User\Poll\PollController@index');
    Route::post('/vote','User\Poll\PollController@processVote');
+
+
+   Route::get('/details/{slug}','User\Poll\PollController@loadSinglePoll');
 });
 Route::get('/signout','Site\SiteMonitor@signOut');
 
