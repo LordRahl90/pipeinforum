@@ -8,6 +8,8 @@
 
 $topCategories=\App\Utility\Utility::getTopCategories();
 $activeThreads=\App\Utility\Utility::getActiveThreads();
+$topPoll=\App\Utility\Utility::getTopPoll();
+$currentUser=null;
 
 if(!auth()->check()){
     $avatar=new \YoHang88\LetterAvatar\LetterAvatar("Guest");
@@ -15,6 +17,7 @@ if(!auth()->check()){
 else{
     $user=auth()->user();
     $avatar=new \YoHang88\LetterAvatar\LetterAvatar($user->first_name.' '.$user->last_name);
+    $currentUser=auth()->user()->id;
 }
 ?>
 <!DOCTYPE html>
@@ -51,15 +54,6 @@ else{
     <link rel="stylesheet" type="text/css" href="{{ asset("rs-plugin/css/settings.css") }}" media="screen" />
 </head>
 <body>
-{{--<div id="fb-root"></div>--}}
-{{--<script>(function(d, s, id) {--}}
-{{--var js, fjs = d.getElementsByTagName(s)[0];--}}
-{{--if (d.getElementById(id)) return;--}}
-{{--js = d.createElement(s); js.id = id;--}}
-{{--js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.10&appId=1395027497211285";--}}
-{{--fjs.parentNode.insertBefore(js, fjs);--}}
-{{--}(document, 'script', 'facebook-jssdk'));--}}
-{{--</script>--}}
 <div class="container-fluid">
 
     <!-- Slider -->
@@ -102,14 +96,9 @@ else{
                     <div class="stnt pull-left">
                         @if(\Illuminate\Support\Facades\Auth::check())
                             <div class="stnt pull-left">
-                                {{--<form action="http://forum.azyrusthemes.com/03_new_topic.html" method="post" class="form">--}}
                                 <a href="/user/post/create" class="btn btn-primary">Start New Topic</a>
-                                {{--</form>--}}
                             </div>
                         @endif
-                        {{--<form action="http://forum.azyrusthemes.com/03_new_topic.html" method="post" class="form">--}}
-                        {{--<a href="/user/post/create" class="btn btn-primary">Start New Topic</a>--}}
-                        {{--</form>--}}
                     </div>
                     <div class="env pull-left"><i class="fa fa-envelope"></i></div>
 
@@ -177,58 +166,91 @@ else{
                     </div>
 
                     <!-- -->
-                    <div class="sidebarblock">
-                        <h3>Poll of the Week</h3>
-                        <div class="divline"></div>
-                        <div class="blocktxt">
-                            <p>Which game you are playing this week?</p>
-                            <form action="#" method="post" class="form">
-                                <table class="poll">
-                                    <tr>
-                                        <td>
-                                            <div class="progress">
-                                                <div class="progress-bar color1" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 90%">
-                                                    Call of Duty Ghosts
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="chbox">
-                                            <input id="opt1" type="radio" name="opt" value="1">
-                                            <label for="opt1"></label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="progress">
-                                                <div class="progress-bar color2" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 63%">
-                                                    Titanfall
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="chbox">
-                                            <input id="opt2" type="radio" name="opt" value="2" checked>
-                                            <label for="opt2"></label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="progress">
-                                                <div class="progress-bar color3" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 75%">
-                                                    Battlefield 4
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="chbox">
-                                            <input id="opt3" type="radio" name="opt" value="3">
-                                            <label for="opt3"></label>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </form>
-                            <p class="smal">Voting ends on 19th of October</p>
-                        </div>
-                    </div>
+                    @if(count($topPoll)>0)
+                        <?php
+                          $topPoll=$topPoll->first()->poll;
+                          $hasUserVoted=\App\Utility\Utility::hasUserVoted($topPoll->id,$currentUser);
+                          $pollResponse=$topPoll->responses->count();
+                        ?>
+                        <div class="sidebarblock">
+                            <h3>Poll of the Week @if(!auth()->check()) <span>Please sign in/register to vote</span>
+                                @endif</h3>
+                            <div class="divline"></div>
+                            <div class="blocktxt">
+                                <p>{{ $topPoll->title }}</p>
+                                <form action="/polls/vote" method="post" class="form" id="pollForm">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                                    <input type="hidden" name="poll_id" value="{{ $topPoll->id }}" />
+                                    <table class="poll">
 
+                                        @if(count($topPoll->options)>0)
+                                            @if($hasUserVoted)
+                                                @foreach($topPoll->options as $option)
+                                                    <?php
+                                                        $optionResponse=$option->responses;
+                                                        $optionResponseCount=$optionResponse->count();
+                                                        $percentage= ($optionResponseCount/$pollResponse)*100;
+                                                    ?>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="progress">
+                                                                <div class="progress-bar color1" role="progressbar"
+                                                                     aria-valuenow="40"
+                                                                     aria-valuemin="0" aria-valuemax="100"
+                                                                     style="width: {{ $percentage }}%">
+                                                                    {{ $option->option }} ({{ number_format($percentage,2) }}%)
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+
+                                            @else
+                                                @foreach($topPoll->options as $option)
+                                                    <tr>
+
+                                                        @if(auth()->check())
+                                                            <td>
+                                                                <div class="progress">
+                                                                    <div class="progress-bar color1" role="progressbar"
+                                                                         aria-valuenow="40" aria-valuemin="0"
+                                                                         aria-valuemax="100" style="width: 100%">
+                                                                        {{ $option->option }}
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+
+                                                            <td class="chbox">
+                                                                <input id="opt{{ $option->id }}" type="radio" name="opt"
+                                                                       value="{{ $option->id }}" class="poll_option">
+                                                                <label for="opt{{ $option->id }}"></label>
+                                                            </td>
+                                                        @else
+                                                            <td colspan="2">
+                                                                <div class="progress">
+                                                                    <div class="progress-bar color1" role="progressbar"
+                                                                         aria-valuenow="40" aria-valuemin="0"
+                                                                         aria-valuemax="100" style="width: 100%">
+                                                                        {{ $option->option }}
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        @endif
+                                                    </tr>
+                                                @endforeach
+                                            @endif
+                                        @endif
+                                    </table>
+                                </form>
+                                {{--<p class="smal">Voting ends on 19th of October</p>--}}
+                                <p class="smal"><span>{{ number_format($pollResponse) }} Vote(s).</span> Voting ends on
+                                    {{ Date('d, M',
+                                strtotime
+                                ($topPoll->created_at)) }}</p>
+                            </div>
+                        </div>
+
+                    @endif
                     <!-- -->
                     <div class="sidebarblock">
                         <h3>My Active Threads</h3>
@@ -241,22 +263,6 @@ else{
                                 </div>
                             @endforeach
                         @endif
-                        {{--<div class="divline"></div>--}}
-                        {{--<div class="blocktxt">--}}
-                            {{--<a href="#">Who Wins in the Battle for Power on the Internet?</a>--}}
-                        {{--</div>--}}
-                        {{--<div class="divline"></div>--}}
-                        {{--<div class="blocktxt">--}}
-                            {{--<a href="#">Sony QX10: A Funky, Overpriced Lens Camera for Your Smartphone</a>--}}
-                        {{--</div>--}}
-                        {{--<div class="divline"></div>--}}
-                        {{--<div class="blocktxt">--}}
-                            {{--<a href="#">FedEx Simplifies Shipping for Small Businesses</a>--}}
-                        {{--</div>--}}
-                        {{--<div class="divline"></div>--}}
-                        {{--<div class="blocktxt">--}}
-                            {{--<a href="#">Loud and Brave: Saudi Women Set to Protest Driving Ban</a>--}}
-                        {{--</div>--}}
                     </div>
 
 
@@ -316,25 +322,23 @@ else{
                 fullWidth: "on"
             });
 
-    });	//ready
 
-    //    window.fbAsyncInit = function() {
-    //        FB.init({
-    //            appId      : '{your-app-id}',
-    //            cookie     : true,
-    //            xfbml      : true,
-    //            version    : '{latest-api-version}'
-    //        });
-    //        FB.AppEvents.logPageView();
-    //    };
-    //
-    //    (function(d, s, id){
-    //        var js, fjs = d.getElementsByTagName(s)[0];
-    //        if (d.getElementById(id)) {return;}
-    //        js = d.createElement(s); js.id = id;
-    //        js.src = "//connect.facebook.net/en_US/sdk.js";
-    //        fjs.parentNode.insertBefore(js, fjs);
-    //    }(document, 'script', 'facebook-jssdk'));
+        $("#pollForm").ajaxForm(function(data){
+            if(data.status!='success'){
+                error(data.message);
+                return;
+            }
+
+            success(data.message);
+            location.reload();
+        });
+
+        $(".poll_option").click(function(){
+           var form=$("#pollForm");
+           form.submit();
+        });
+
+    });	//ready
 
 </script>
 

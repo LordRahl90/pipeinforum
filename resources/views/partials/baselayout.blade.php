@@ -8,6 +8,12 @@
 
 $topCategories=\App\Utility\Utility::getTopCategories();
 $activeThreads=\App\Utility\Utility::getActiveThreads();
+$topPoll=\App\Utility\Utility::getTopPoll();
+$topPosts=\App\Utility\Utility::topPosts();
+
+//dd($topPosts);
+
+$currentUser=null;
 
 if(!auth()->check()){
     $avatar=new \YoHang88\LetterAvatar\LetterAvatar("Guest");
@@ -15,10 +21,10 @@ if(!auth()->check()){
 else{
     $user=auth()->user();
     $avatar=new \YoHang88\LetterAvatar\LetterAvatar($user->first_name.' '.$user->last_name);
+    $currentUser=auth()->user()->id;
 }
 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -154,110 +160,46 @@ else{
                     <!-- POST -->
                     @yield('content')
 
-                    <div class="post">
-                        <div class="wrap-ut pull-left">
-                            <div class="userinfo pull-left">
-                                <div class="avatar">
-                                    <img src="{{ asset("images/avatar.jpg") }}" alt="">
-                                    <div class="status green">&nbsp;</div>
+
+                    @if(count($topPosts)>0)
+                        @foreach($topPosts as $post)
+                            <?php
+                            $owner=$post->owner;
+                            $avatar=new \YoHang88\LetterAvatar\LetterAvatar($owner->first_name.' '.$owner->last_name);
+                            ?>
+                            <div class="post">
+                                <div class="wrap-ut pull-left">
+                                    <div class="userinfo pull-left">
+                                        <div class="avatar">
+                                            <img src="{{ $avatar }}" alt="" />
+                                            <div class="status green">&nbsp;</div>
+                                        </div>
+
+                                        <div class="icons">
+                                            <img src="{{ asset("images/icon1.jpg") }}" alt="" /><img src="{{ asset("images/icon4.jpg") }}" alt="" />
+                                        </div>
+                                    </div>
+                                    <div class="posttext pull-left">
+                                        <h2><a href="/topic/{{ $post->slug }}">{{ $post->title }}</a></h2>
+                                        <p>{{ substr(strip_tags($post->content),0,50) }}...</p>
+                                    </div>
+                                    <div class="clearfix"></div>
                                 </div>
+                                <div class="postinfo pull-left">
+                                    <div class="comments">
+                                        <div class="commentbg">
+                                            {{ count($post->comments) }}
+                                            <div class="mark"></div>
+                                        </div>
 
-                                <div class="icons">
-                                    <img src="{{ asset("images/icon1.jpg") }}" alt="">
-                                    <img src="{{ asset("images/icon4.jpg") }}" alt="">
+                                    </div>
+                                    <div class="views"><i class="fa fa-eye"></i> 1,568</div>
+                                    <div class="time"><i class="fa fa-clock-o"></i> 24 min</div>
                                 </div>
-                            </div>
-                            <div class="posttext pull-left">
-                                <h2>10 Kids Unaware of Their Halloween Costume</h2>
-                                <p>It's one thing to subject yourself to a Halloween costume mishap because, hey, that's your prerogative.</p>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="postinfo pull-left">
-                            <div class="comments">
-                                <div class="commentbg">
-                                    560
-                                    <div class="mark"></div>
-                                </div>
-
-                            </div>
-                            <div class="views"><i class="fa fa-eye"></i> 1,568</div>
-                            <div class="time"><i class="fa fa-clock-o"></i> 24 min</div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div><!-- POST -->
-
-
-                    <!-- POST -->
-                    <div class="post">
-                        <div class="wrap-ut pull-left">
-                            <div class="userinfo pull-left">
-                                <div class="avatar">
-                                    <img src="{{ asset("images/avatar2.jpg") }}" alt="">
-                                    <div class="status red">&nbsp;</div>
-                                </div>
-
-                                <div class="icons">
-                                    <img src="{{ asset("images/icon3.jpg") }}" alt="">
-                                    <img src="{{ asset("images/icon4.jpg") }}" alt="">
-                                    <img src="{{ asset("images/icon5.jpg") }}" alt="">
-                                    <img src="{{ asset("images/icon6.jpg") }}" alt="">
-                                </div>
-                            </div>
-                            <div class="posttext pull-left">
-                                <h2>What Instagram Ads Will Look Like</h2>
-                                <p>Instagram offered a first glimpse at what its ads will look like in a blog post Thursday. The sample ad, which you can see below.</p>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="postinfo pull-left">
-                            <div class="comments">
-                                <div class="commentbg">
-                                    89
-                                    <div class="mark"></div>
-                                </div>
-
-                            </div>
-                            <div class="views"><i class="fa fa-eye"></i> 1,568</div>
-                            <div class="time"><i class="fa fa-clock-o"></i> 15 min</div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div><!-- POST -->
-
-
-                    <!-- POST -->
-                    <div class="post">
-                        <div class="wrap-ut pull-left">
-                            <div class="userinfo pull-left">
-                                <div class="avatar">
-                                    <img src="{{ asset("images/avatar3.jpg") }}" alt="">
-                                    <div class="status red">&nbsp;</div>
-                                </div>
-
-                                <div class="icons">
-                                    <img src="{{ asset("images/icon2.jpg") }}" alt="">
-                                    <img src="{{ asset("images/icon4.jpg") }}" alt="">
-                                </div>
-                            </div>
-                            <div class="posttext pull-left">
-                                <h2>The Future of Magazines Is on Tablets</h2>
-                                <p>Eric Schmidt has seen the future of magazines, and it's on the tablet. At a Magazine Publishers Association.</p>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="postinfo pull-left">
-                            <div class="comments">
-                                <div class="commentbg">
-                                    456
-                                    <div class="mark"></div>
-                                </div>
-
-                            </div>
-                            <div class="views"><i class="fa fa-eye"></i> 1,568</div>
-                            <div class="time"><i class="fa fa-clock-o"></i> 2 days</div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div><!-- POST -->
+                                <div class="clearfix"></div>
+                            </div><!-- POST -->
+                        @endforeach
+                    @endif
                 </div>
 
                 <div class="col-lg-4 col-md-4">
@@ -283,57 +225,90 @@ else{
                     </div>
 
                     <!-- -->
-                    <div class="sidebarblock">
-                        <h3>Poll of the Week</h3>
-                        <div class="divline"></div>
-                        <div class="blocktxt">
-                            <p>Which game you are playing this week?</p>
-                            <form action="#" method="post" class="form">
-                                <table class="poll">
-                                    <tr>
-                                        <td>
-                                            <div class="progress">
-                                                <div class="progress-bar color1" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 90%">
-                                                    Call of Duty Ghosts
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="chbox">
-                                            <input id="opt1" type="radio" name="opt" value="1">
-                                            <label for="opt1"></label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="progress">
-                                                <div class="progress-bar color2" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 63%">
-                                                    Titanfall
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="chbox">
-                                            <input id="opt2" type="radio" name="opt" value="2" checked>
-                                            <label for="opt2"></label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="progress">
-                                                <div class="progress-bar color3" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 75%">
-                                                    Battlefield 4
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="chbox">
-                                            <input id="opt3" type="radio" name="opt" value="3">
-                                            <label for="opt3"></label>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </form>
-                            <p class="smal">Voting ends on 19th of October</p>
+                    @if(count($topPoll)>0)
+                        <?php
+                        $topPoll=$topPoll->first()->poll;
+                        $hasUserVoted=\App\Utility\Utility::hasUserVoted($topPoll->id,$currentUser);
+                        $pollResponse=$topPoll->responses->count();
+                        ?>
+                        <div class="sidebarblock">
+                            <h3>Poll of the Week @if(!auth()->check()) <span>Please sign in/register to vote</span>
+                                @endif</h3>
+                            <div class="divline"></div>
+                            <div class="blocktxt">
+                                <p>{{ $topPoll->title }}</p>
+                                <form action="/polls/vote" method="post" class="form" id="pollForm">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                                    <input type="hidden" name="poll_id" value="{{ $topPoll->id }}" />
+                                    <table class="poll">
+
+                                        @if(count($topPoll->options)>0)
+                                            @if($hasUserVoted)
+                                                @foreach($topPoll->options as $option)
+                                                    <?php
+                                                    $optionResponse=$option->responses;
+                                                    $optionResponseCount=$optionResponse->count();
+                                                    $percentage= ($optionResponseCount/$pollResponse)*100;
+                                                    ?>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="progress">
+                                                                <div class="progress-bar color1" role="progressbar"
+                                                                     aria-valuenow="40"
+                                                                     aria-valuemin="0" aria-valuemax="100"
+                                                                     style="width: {{ $percentage }}%">
+                                                                    {{ $option->option }} ({{ number_format($percentage) }}%)
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+
+                                            @else
+                                                @foreach($topPoll->options as $option)
+                                                    <tr>
+                                                        @if(auth()->check())
+                                                            <td>
+                                                                <div class="progress">
+                                                                    <div class="progress-bar color1" role="progressbar"
+                                                                         aria-valuenow="40" aria-valuemin="0"
+                                                                         aria-valuemax="100" style="width: 100%">
+                                                                        {{ $option->option }}
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+
+                                                            <td class="chbox">
+                                                                <input id="opt{{ $option->id }}" type="radio" name="opt"
+                                                                       value="{{ $option->id }}" class="poll_option">
+                                                                <label for="opt{{ $option->id }}"></label>
+                                                            </td>
+                                                        @else
+                                                            <td colspan="2">
+                                                                <div class="progress">
+                                                                    <div class="progress-bar color1" role="progressbar"
+                                                                         aria-valuenow="40" aria-valuemin="0"
+                                                                         aria-valuemax="100" style="width: 100%">
+                                                                        {{ $option->option }}
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        @endif
+                                                    </tr>
+                                                @endforeach
+                                            @endif
+                                        @endif
+                                    </table>
+                                </form>
+                                {{--<p class="smal">Voting ends on 19th of October</p>--}}
+                                <p class="smal"><span>{{ number_format($pollResponse) }} Vote(s).</span> Voting ends on
+                                    {{ Date('d, M',
+                                strtotime
+                                ($topPoll->created_at)) }}</p>
+                            </div>
                         </div>
-                    </div>
+
+                @endif
 
                     <!-- -->
                     <div class="sidebarblock">
@@ -406,25 +381,21 @@ else{
                 fullWidth: "on"
             });
 
-    });	//ready
+        $("#pollForm").ajaxForm(function(data){
+           if(data.status!='success'){
+               error(data.message);
+               return;
+           }
 
-//    window.fbAsyncInit = function() {
-//        FB.init({
-//            appId      : '{your-app-id}',
-//            cookie     : true,
-//            xfbml      : true,
-//            version    : '{latest-api-version}'
-//        });
-//        FB.AppEvents.logPageView();
-//    };
-//
-//    (function(d, s, id){
-//        var js, fjs = d.getElementsByTagName(s)[0];
-//        if (d.getElementById(id)) {return;}
-//        js = d.createElement(s); js.id = id;
-//        js.src = "//connect.facebook.net/en_US/sdk.js";
-//        fjs.parentNode.insertBefore(js, fjs);
-//    }(document, 'script', 'facebook-jssdk'));
+           success(data.message);
+           location.reload();
+        });
+
+        $(".poll_option").click(function(){
+            var form=$("#pollForm");
+            form.submit();
+        });
+    });	//ready
 
 </script>
 

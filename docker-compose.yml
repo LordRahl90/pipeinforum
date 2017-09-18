@@ -41,6 +41,9 @@ services:
     ports:
       - 3306
 
+    volumes:
+      - "/var/lib/docker/volumes/mysql_volume/_data : /var/lib/mysql"
+
   mongo:
     image: mongo
     hostname: mongo

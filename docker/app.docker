@@ -1,14 +1,25 @@
 FROM php:7-fpm
 
-RUN apt-get update && apt-get install -y libmcrypt-dev mysql-client && docker-php-ext-install mcrypt pdo_mysql \
+RUN apt-get update && apt-get install -y libmcrypt-dev mysql-client && docker-php-ext-install mcrypt pdo pdo_mysql \
     && apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng12-dev \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install gd \
     && apt-get install nano
 
 
+#install zip git and open ssl
+RUN apt-get update -y && apt-get install -y openssl zip unzip git
 
+#install composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+#migrate to the filemenu
+WORKDIR /var/www
+
+#Add the current files and folders to the container
 ADD ../. /var/www
 
 
-WORKDIR /var/www
+RUN composer install
+RUN php artisan migrate --seed
+

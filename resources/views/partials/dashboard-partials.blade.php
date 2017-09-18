@@ -26,11 +26,12 @@ $avatar=new \YoHang88\LetterAvatar\LetterAvatar($user->first_name.' '.$user->las
     <link rel="stylesheet" href="{{ asset("bower_components/Ionicons/css/ionicons.min.css") }}">
 
     <link rel="stylesheet" href="{{ asset("bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css") }}">
+    <link rel="stylesheet" href="{{ asset("bower_components/summernote/dist/summernote.css") }}" />
+    <link rel="stylesheet" href="{{ asset("bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css") }}" />
 
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset("dist/css/AdminLTE.min.css") }}">
-    <!-- AdminLTE Skins. Choose a skin from the css/skins
-         folder instead of downloading all of them to reduce the load. -->
+
     <link rel="stylesheet" href="{{ asset("dist/css/skins/_all-skins.min.css") }}">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -193,6 +194,21 @@ $avatar=new \YoHang88\LetterAvatar\LetterAvatar($user->first_name.' '.$user->las
                     </ul>
                 </li>
 
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-dashboard"></i> <span>Polls</span>
+                        <span class="pull-right-container">
+                            <small class="label pull-right bg-red">3</small>
+                            <small class="label pull-right bg-blue">17</small>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="/admin/polls/create"><i class="fa fa-circle-o"></i> Create New</a></li>
+                        <li><a href="/admin/polls"><i class="fa fa-circle-o"></i> List Polls</a></li>
+                    </ul>
+                </li>
+
                 <li class="header">LABELS</li>
                 <li>
                     <a href="/signout">
@@ -276,9 +292,10 @@ $avatar=new \YoHang88\LetterAvatar\LetterAvatar($user->first_name.' '.$user->las
 <script src="{{ asset("bower_components/bootstrap/dist/js/bootstrap.min.js") }}"></script>
 <!-- SlimScroll -->
 
-<script src="../../bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
-<script src="../../bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-
+<script src="{{ asset("bower_components/datatables.net/js/jquery.dataTables.min.js") }}"></script>
+<script src="{{ asset("bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js") }}"></script>
+<script src="{{ asset("bower_components/summernote/dist/summernote.min.js") }}"></script>
+<script src="{{ asset("bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js") }}"></script>
 <script src="{{ asset("bower_components/jquery-slimscroll/jquery.slimscroll.min.js") }}"></script>
 <!-- FastClick -->
 <script src="{{ asset("bower_components/fastclick/lib/fastclick.js") }}"></script>

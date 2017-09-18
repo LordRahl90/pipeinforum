@@ -65,7 +65,19 @@ Route::group(['prefix'=>'admin'], function(){
     Route::post('/sub-category/create','Admin\Category\SubCategoryController@store');
 
     Route::get('/sub-category/list','Admin\Category\SubCategoryController@index');
+
+    Route::group(['prefix'=>'polls'], function(){
+       Route::get('/','Admin\Polls\PollController@index');
+       Route::get('/create','Admin\Polls\PollController@create')->middleware('auth');
+
+       Route::post('/create','Admin\Polls\PollController@store')->middleware('auth');
+       Route::post('/make-top','Admin\Polls\PollController@makeTopPost')->middleware('auth');
+
+    });
 });
 
+Route::group(['prefix'=>'polls'], function(){
+   Route::post('/vote','User\Poll\PollController@processVote');
+});
 Route::get('/signout','Site\SiteMonitor@signOut');
 
