@@ -10,14 +10,16 @@
 @extends('partials.index-partial')
 @section('title',$category)
 @section('top-pagination')
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-xs-12">
-                {!! $posts->links() !!}
-                <div class="clearfix"></div>
+    @if(count($posts)>0)
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-xs-12">
+                    {!! $posts->links() !!}
+                    <div class="clearfix"></div>
+                </div>
             </div>
         </div>
-    </div>
+    @endif
 @endsection
 @section('content')
 
@@ -92,12 +94,14 @@
 
 @endsection
 @section('bottom-pagination')
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-xs-12 col-md-8">
-                {{ $posts->links() }}
-                <div class="clearfix"></div>
+    @if(count($posts)>0)
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-xs-12">
+                    {!! $posts->links() !!}
+                    <div class="clearfix"></div>
+                </div>
             </div>
         </div>
-    </div>
+    @endif
 @endsection
