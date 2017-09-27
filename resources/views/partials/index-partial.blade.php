@@ -81,13 +81,19 @@ else{
                     </a>
                 </div>
                 <div class="col-lg-3 col-xs-9 col-sm-5 col-md-3 selecttopic">
-                    <a href="/" >PipeIn&trade;</a>
+                    <a href="/" >Uniosun&trade;</a>
                 </div>
                 <div class="col-lg-4 search hidden-xs hidden-sm col-md-3">
                     <div class="wrap">
                         <form action="#" method="post" class="form">
-                            <div class="pull-left txt"><input type="text" class="form-control" placeholder="Search Topics"></div>
-                            <div class="pull-right"><button class="btn btn-default" type="button"><i class="fa fa-search"></i></button></div>
+                            <div class="pull-left txt">
+                                <input type="text" class="form-control" placeholder="Search Topics">
+                            </div>
+                            <div class="pull-right">
+                                <button class="btn btn-default" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
                             <div class="clearfix"></div>
                         </form>
                     </div>
@@ -100,10 +106,20 @@ else{
                             </div>
                         @endif
                     </div>
-                    <div class="env pull-left"><i class="fa fa-envelope"></i></div>
+                    {{--<div class="env pull-left"><i class="fa fa-envelope"></i></div>--}}
+                    @if(!auth()->check())
+                        <div class="env pull-left">
+                            <a href="/user/login"><i class="fa fa-signin"></i> Login</a>
+                        </div>
+                        <div class="env pull-left">
+                            <a href="/user/register"><i class="fa fa-user"></i> Register</a>
+                        </div>
+                    @endif
 
                     <div class="avatar pull-left dropdown">
-                        <a data-toggle="dropdown" href="#"><img src="{{ $avatar }}" alt="" /></a> <b class="caret"></b>
+                        <a data-toggle="dropdown" href="#">
+                            <img src="{{ $avatar }}" alt="" /></a>
+                        <b class="caret"></b>
                         <div class="status green">&nbsp;</div>
                         <ul class="dropdown-menu" role="menu">
                             {{--<li role="presentation">--}}

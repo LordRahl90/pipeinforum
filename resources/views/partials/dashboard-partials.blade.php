@@ -181,7 +181,7 @@ $avatar=new \YoHang88\LetterAvatar\LetterAvatar($user->first_name.' '.$user->las
 
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-dashboard"></i> <span>User</span>
+                        <i class="fa fa-dashboard"></i> <span>Admin</span>
                         <span class="pull-right-container">
                             <small class="label pull-right bg-red">3</small>
                             <small class="label pull-right bg-blue">17</small>

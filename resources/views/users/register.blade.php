@@ -94,14 +94,14 @@
                             </div>
                             <div class="topwrap">
                                 <div class="userinfo pull-left">
-                                    <div class="avatar">
-                                        <img src="{{ asset("images/avatar-blank.jpg") }}" alt="" />
-                                        <div class="status green">&nbsp;</div>
-                                    </div>
-                                    <div class="imgsize">60 x 60</div>
-                                    <div>
-                                        <button type="button" id="addPicture" class="btn">Add</button>
-                                    </div>
+                                    {{--<div class="avatar">--}}
+                                        {{--<img src="{{ asset("images/avatar-blank.jpg") }}" alt="" />--}}
+                                        {{--<div class="status green">&nbsp;</div>--}}
+                                    {{--</div>--}}
+                                    {{--<div class="imgsize">60 x 60</div>--}}
+                                    {{--<div>--}}
+                                        {{--<button type="button" id="addPicture" class="btn">Add</button>--}}
+                                    {{--</div>--}}
                                 </div>
                                 <div class="posttext pull-left">
 
